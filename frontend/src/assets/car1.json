@@ -1,0 +1,240 @@
+{
+    "creditedAnimation": null,
+    "data": {
+        "id": "009fccf8-1171-11ee-b7df-93d19199ced4",
+        "dotLottieId": "009fccf8-1171-11ee-b7df-93d19199ced4",
+        "name": "Cat — loader",
+        "description": "It's a cute spinning cat loader!)\nYou can use it wherever you want, for free, thanks to the LottieFiles website.\nI hope you like it! Thank you for watching!",
+        "lottiePath": "https://assets-v2.lottiefiles.com/a/009fccf8-1171-11ee-b7df-93d19199ced4/AVVma18Z2T.lottie",
+        "userId": "b023204b-638f-472f-8522-08d73fdd9a0b",
+        "slug": "cat-loader",
+        "hash": "F4ZybShCAh",
+        "originalAnimationId": null,
+        "downloadCount": "1282",
+        "stateMachines": [],
+        "meta": {
+            "id": "12345",
+            "width": 1080,
+            "colors": [
+                [
+                    0.105882360421,
+                    0.086274509804,
+                    0.090196078431,
+                    1
+                ],
+                [
+                    0.909803981407,
+                    0.90588241278,
+                    0.882353001015,
+                    1
+                ],
+                [
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                [
+                    0.10541862039,
+                    0.086424419927,
+                    0.08979360543,
+                    1
+                ],
+                [
+                    0.956862804936,
+                    0.956862804936,
+                    0.956862804936,
+                    1
+                ],
+                [
+                    0.956862745098,
+                    0.956862745098,
+                    0.956862745098,
+                    1
+                ]
+            ],
+            "frames": 49,
+            "height": 1080,
+            "layers": 33,
+            "themes": [],
+            "inPoint": 0,
+            "version": "5.5.0",
+            "fileSize": 49159,
+            "outPoint": 49,
+            "frameRate": 24,
+            "generator": "@lottiefiles/lottie-js 0.4.2"
+        },
+        "variants": [
+            {
+                "path": "a/009fccf8-1171-11ee-b7df-93d19199ced4/fkGzyd9iVv.json",
+                "type": "json",
+                "fileSize": 52488,
+                "dimension": null,
+                "isOptimized": false,
+                "isTransparent": false
+            },
+            {
+                "path": "a/009fccf8-1171-11ee-b7df-93d19199ced4/bd6fWEsQV6.json",
+                "type": "json",
+                "fileSize": 41456,
+                "dimension": null,
+                "isOptimized": true,
+                "isTransparent": false
+            },
+            {
+                "path": "a/009fccf8-1171-11ee-b7df-93d19199ced4/IzbcVfU4qj.mp4",
+                "type": "mp4",
+                "fileSize": 110817,
+                "dimension": {
+                    "name": "default",
+                    "width": 640,
+                    "height": 640
+                },
+                "isOptimized": false,
+                "isTransparent": false
+            },
+            {
+                "path": "a/009fccf8-1171-11ee-b7df-93d19199ced4/haoOwiXH6D.gif",
+                "type": "gif",
+                "fileSize": 448864,
+                "dimension": {
+                    "name": "default",
+                    "width": 640,
+                    "height": 640
+                },
+                "isOptimized": false,
+                "isTransparent": false
+            },
+            {
+                "path": "a/009fccf8-1171-11ee-b7df-93d19199ced4/aTFBada4Xg.png",
+                "type": "png",
+                "fileSize": null,
+                "dimension": {
+                    "name": "default",
+                    "width": 640,
+                    "height": 640
+                },
+                "isOptimized": false,
+                "isTransparent": false
+            },
+            {
+                "path": "a/009fccf8-1171-11ee-b7df-93d19199ced4/DWpM0YxJKC.zip",
+                "type": "zip",
+                "fileSize": 3276,
+                "dimension": null,
+                "isOptimized": false,
+                "isTransparent": false
+            },
+            {
+                "path": "a/009fccf8-1171-11ee-b7df-93d19199ced4/0q4on4hUdW.gif",
+                "type": "gif",
+                "fileSize": 170022,
+                "dimension": {
+                    "name": "small",
+                    "width": 150,
+                    "height": 150
+                },
+                "isOptimized": false,
+                "isTransparent": false
+            },
+            {
+                "path": "a/009fccf8-1171-11ee-b7df-93d19199ced4/hJWmV0Qh8T.gif",
+                "type": "gif",
+                "fileSize": 965676,
+                "dimension": {
+                    "name": "medium",
+                    "width": 500,
+                    "height": 500
+                },
+                "isOptimized": false,
+                "isTransparent": false
+            },
+            {
+                "path": "a/009fccf8-1171-11ee-b7df-93d19199ced4/18pL8Oc9l6.gif",
+                "type": "gif",
+                "fileSize": 1747830,
+                "dimension": {
+                    "name": "large",
+                    "width": 1200,
+                    "height": 1200
+                },
+                "isOptimized": false,
+                "isTransparent": false
+            },
+            {
+                "path": "a/009fccf8-1171-11ee-b7df-93d19199ced4/AVVma18Z2T.lottie",
+                "type": "lottie",
+                "fileSize": 3859,
+                "dimension": null,
+                "isOptimized": false,
+                "isTransparent": false
+            },
+            {
+                "path": "a/009fccf8-1171-11ee-b7df-93d19199ced4/og-image-GBygTwKAbi.png",
+                "type": "og-image",
+                "fileSize": null,
+                "dimension": null,
+                "isOptimized": false,
+                "isTransparent": false
+            }
+        ],
+        "status": "published",
+        "publishedAt": "2021-09-02T10:06:52.000Z",
+        "dotLottieVersion": "1.0",
+        "config": {
+            "scale": 1,
+            "speed": 1,
+            "backgroundColor": "#EE8020"
+        },
+        "size": 3859,
+        "image": {
+            "href": "https://assets-v2.lottiefiles.com/a/009fccf8-1171-11ee-b7df-93d19199ced4/haoOwiXH6D.gif",
+            "width": 640,
+            "height": 640,
+            "contentType": "image/gif"
+        },
+        "thumbnail": {
+            "href": "https://assets-v2.lottiefiles.com/a/009fccf8-1171-11ee-b7df-93d19199ced4/aTFBada4Xg.png",
+            "width": 640,
+            "height": 640,
+            "contentType": "image/png"
+        },
+        "user": {
+            "id": "b023204b-638f-472f-8522-08d73fdd9a0b",
+            "first_name": "Evgeny  Marinin",
+            "last_name": "",
+            "username": "evgenymarinin",
+            "avatar_url": "https://accounts-assets.lottiefiles.com/avatars/300_25133-1617715448.jpg",
+            "email": "marinines88@inbox.ru",
+            "is_hireable": false
+        }
+    },
+    "tags": [
+        {
+            "id": "65d9bf1c-0184-11ef-a7e9-f30da062d247",
+            "name": "loader",
+            "title": "Loader",
+            "path": "/free-animations/loader",
+            "slug": "loader"
+        },
+        {
+            "id": "77773d9e-0184-11ef-abb8-9349bd4e1808",
+            "name": "illustration",
+            "title": "Illustration",
+            "path": "/free-animations/illustration",
+            "slug": "illustration"
+        },
+        {
+            "id": "d0e45bb4-0184-11ef-a7eb-37e16f775acd",
+            "name": "cat",
+            "title": "Cat",
+            "path": "/free-animations/cat",
+            "slug": "cat"
+        }
+    ],
+    "tools": [
+        "adobe-ae",
+        "bodymovin"
+    ],
+    "themes": []
+}

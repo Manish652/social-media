@@ -1,0 +1,1071 @@
+{
+    "status": "success",
+    "response": {
+        "item": {
+            "id": 8433611,
+            "uuid": "82bb0450-9429-11ee-aa50-0242ac140003",
+            "asset": "lottie",
+            "raw_item_id": 10350902,
+            "pack_id": 237019,
+            "user_id": 155731,
+            "custom_mockup": false,
+            "mockup_preview": false,
+            "price": 5,
+            "priority": 7,
+            "width": 1000,
+            "height": 1000,
+            "size": 209987,
+            "discount": 0,
+            "total_view": 135,
+            "likes_count": 0,
+            "comments_count": 0,
+            "downloads_count": 2,
+            "featured": false,
+            "featured_at": null,
+            "style_id": null,
+            "license_id": 71,
+            "status": "active",
+            "created_at": "2023-12-06 11:20:50",
+            "modified_at": "2023-11-17 07:32:17",
+            "deleted_at": null,
+            "liked_by_user": false,
+            "name": "Bicycle Loading",
+            "slug": "bicycle-loading-10350902",
+            "identifier": "bicycle-loading-animated-icon_8433611",
+            "lang": "en",
+            "description": "Bicycle Loading Animation design for UI",
+            "categories": [],
+            "is_premium": true,
+            "payable_price": 5,
+            "licenses": [
+                {
+                    "id": 71,
+                    "name": "Digital License",
+                    "description": "Single End product  - Single sale. Physical production up to 500,000 copies . No Merchandise use.",
+                    "link": "https:\/\/iconscout.com\/licenses#iconscout",
+                    "price": 5,
+                    "payable_price": 5,
+                    "attribution_required": 0,
+                    "downloaded_by_user": false,
+                    "is_subscription": false
+                },
+                {
+                    "id": 73,
+                    "name": "Physical Unlimited License",
+                    "description": "Single End product - Unlimited sales. Unlimited Physical production.  Unlimited use in Merchandise.",
+                    "link": "https:\/\/iconscout.com\/licenses#iconscout",
+                    "price": 50,
+                    "payable_price": 50,
+                    "attribution_required": 0,
+                    "downloaded_by_user": false,
+                    "is_subscription": false
+                }
+            ],
+            "urls": {
+                "preview": "https:\/\/cdnl.iconscout.com\/lottie\/premium\/preview-watermark\/bicycle-loading-animated-icon-gif-download-8433611.mp4",
+                "thumb": "https:\/\/cdnl.iconscout.com\/lottie\/premium\/thumb\/bicycle-loading-animated-icon-gif-download-8433611.mp4",
+                "preview_image": "https:\/\/cdnl.iconscout.com\/lottie\/premium\/preview\/bicycle-loading-animated-icon-gif-download-8433611.png"
+            },
+            "canonical_url": null,
+            "preview_files": [],
+            "additional_formats": [
+                "aep",
+                "lottie"
+            ],
+            "additional_informations": {
+                "nsfw": false,
+                "category": "icon",
+                "allowed_usage": "commercial",
+                "preview_frame": 91,
+                "background_type": "transparent",
+                "iconscout_exclusive": false,
+                "is_thorvg_supported": true,
+                "frame_rate": 29.970001220703,
+                "version": "4.8.0",
+                "generator": "LottieFiles AE 3.4.5",
+                "no_of_layers": 11,
+                "total_frames": 182.00000741301
+            },
+            "pack": {
+                "id": 237019,
+                "asset": "lottie",
+                "raw_pack_id": 306450,
+                "bundle_id": 27143,
+                "user_id": 155731,
+                "custom_mockup": true,
+                "price": 10,
+                "priority": 7,
+                "license_id": 71,
+                "created_at": "2023-12-06 11:20:50",
+                "modified_at": "2023-12-06 11:24:06",
+                "name": "Loading",
+                "slug": "loading-165",
+                "identifier": "loading-animated-icon-pack_237019",
+                "lang": "en",
+                "categories": [
+                    {
+                        "id": 32,
+                        "category_id": null,
+                        "slug": "user-interface",
+                        "keyword": null,
+                        "name": "User Interface",
+                        "lang": "en"
+                    }
+                ],
+                "generative_ai": false
+            },
+            "curated_item": null,
+            "contributor": {
+                "id": 155731,
+                "uuid": "d408caf0-998a-11ea-b8d4-0242ac140003",
+                "first_name": "Yudha",
+                "last_name": "Dwiyoko Putra",
+                "company": "Brocz Design",
+                "username": "broczdesign",
+                "description": "Make Animation Great Again",
+                "designation": [
+                    "icon-designer",
+                    "3d-designer",
+                    "motion-designer"
+                ],
+                "created_at": "2020-05-19 04:40:13",
+                "updated_at": "2025-10-21 18:15:48",
+                "deleted_at": null,
+                "items_count": 8981,
+                "packs_count": 219,
+                "followers_count": 10,
+                "sales_count": 1475,
+                "followed_by_user": false,
+                "name": "Yudha Dwiyoko Putra",
+                "urls": {
+                    "small": "https:\/\/cdn.iconscout.com\/profile-photo\/large\/yudha-dwiyoko-putra-155731.jpg?w=100&h=100&updated_at=1761070548",
+                    "normal": "https:\/\/cdn.iconscout.com\/profile-photo\/large\/yudha-dwiyoko-putra-155731.jpg?w=400&h=400&updated_at=1761070548",
+                    "large": "https:\/\/cdn.iconscout.com\/profile-photo\/large\/yudha-dwiyoko-putra-155731.jpg?w=800&h=800&updated_at=1761070548"
+                },
+                "country": {
+                    "iso_code": "ID",
+                    "name": "Indonesia"
+                }
+            },
+            "color_codes": [
+                {
+                    "decimal_color": 7361716,
+                    "color_id": 452,
+                    "color": {
+                        "id": 452,
+                        "name": "Blue Violet",
+                        "primary_name": "Blue Violet"
+                    }
+                }
+            ],
+            "tags": [
+                {
+                    "id": 975620,
+                    "orderable_id": 1,
+                    "name": "bicycle loading",
+                    "slug": "bicycle-loading",
+                    "lang": "en"
+                },
+                {
+                    "id": 2902,
+                    "orderable_id": 2,
+                    "name": "bicycle",
+                    "slug": "bicycle",
+                    "lang": "en"
+                },
+                {
+                    "id": 2920,
+                    "orderable_id": 3,
+                    "name": "bike",
+                    "slug": "bike",
+                    "lang": "en"
+                },
+                {
+                    "id": 2313,
+                    "orderable_id": 4,
+                    "name": "cycle",
+                    "slug": "cycle",
+                    "lang": "en"
+                },
+                {
+                    "id": 3492,
+                    "orderable_id": 5,
+                    "name": "cycling",
+                    "slug": "cycling",
+                    "lang": "en"
+                },
+                {
+                    "id": 707,
+                    "orderable_id": 6,
+                    "name": "transport",
+                    "slug": "transport",
+                    "lang": "en"
+                },
+                {
+                    "id": 1134,
+                    "orderable_id": 7,
+                    "name": "sport",
+                    "slug": "sport",
+                    "lang": "en"
+                },
+                {
+                    "id": 681,
+                    "orderable_id": 8,
+                    "name": "vehicle",
+                    "slug": "vehicle",
+                    "lang": "en"
+                },
+                {
+                    "id": 805,
+                    "orderable_id": 9,
+                    "name": "travel",
+                    "slug": "travel",
+                    "lang": "en"
+                },
+                {
+                    "id": 680,
+                    "orderable_id": 10,
+                    "name": "transportation",
+                    "slug": "transportation",
+                    "lang": "en"
+                },
+                {
+                    "id": 4287,
+                    "orderable_id": 11,
+                    "name": "ride",
+                    "slug": "ride",
+                    "lang": "en"
+                },
+                {
+                    "id": 3491,
+                    "orderable_id": 12,
+                    "name": "riding",
+                    "slug": "riding",
+                    "lang": "en"
+                },
+                {
+                    "id": 387,
+                    "orderable_id": 13,
+                    "name": "loading",
+                    "slug": "loading",
+                    "lang": "en"
+                },
+                {
+                    "id": 180,
+                    "orderable_id": 14,
+                    "name": "refresh",
+                    "slug": "refresh",
+                    "lang": "en"
+                },
+                {
+                    "id": 181,
+                    "orderable_id": 15,
+                    "name": "reload",
+                    "slug": "reload",
+                    "lang": "en"
+                },
+                {
+                    "id": 1414,
+                    "orderable_id": 16,
+                    "name": "processing",
+                    "slug": "processing",
+                    "lang": "en"
+                },
+                {
+                    "id": 908,
+                    "orderable_id": 17,
+                    "name": "sync",
+                    "slug": "sync",
+                    "lang": "en"
+                },
+                {
+                    "id": 2061,
+                    "orderable_id": 18,
+                    "name": "load",
+                    "slug": "load",
+                    "lang": "en"
+                },
+                {
+                    "id": 1351,
+                    "orderable_id": 19,
+                    "name": "process",
+                    "slug": "process",
+                    "lang": "en"
+                },
+                {
+                    "id": 5444,
+                    "orderable_id": 20,
+                    "name": "waiting",
+                    "slug": "waiting",
+                    "lang": "en"
+                },
+                {
+                    "id": 6998,
+                    "orderable_id": 21,
+                    "name": "loader",
+                    "slug": "loader",
+                    "lang": "en"
+                },
+                {
+                    "id": 1461,
+                    "orderable_id": 22,
+                    "name": "progress",
+                    "slug": "progress",
+                    "lang": "en"
+                },
+                {
+                    "id": 33198,
+                    "orderable_id": 23,
+                    "name": "preloader",
+                    "slug": "preloader",
+                    "lang": "en"
+                },
+                {
+                    "id": 17046,
+                    "orderable_id": 24,
+                    "name": "buffering",
+                    "slug": "buffering",
+                    "lang": "en"
+                },
+                {
+                    "id": 906,
+                    "orderable_id": 25,
+                    "name": "update",
+                    "slug": "update",
+                    "lang": "en"
+                },
+                {
+                    "id": 4532,
+                    "orderable_id": 26,
+                    "name": "repeat",
+                    "slug": "repeat",
+                    "lang": "en"
+                },
+                {
+                    "id": 1612,
+                    "orderable_id": 27,
+                    "name": "synchronization",
+                    "slug": "synchronization",
+                    "lang": "en"
+                }
+            ],
+            "style": null,
+            "formats": [
+                {
+                    "id": 19,
+                    "name": "gif",
+                    "mime_type": "image\/gif"
+                },
+                {
+                    "id": 22,
+                    "name": "mp4",
+                    "mime_type": "video\/mp4"
+                },
+                {
+                    "id": 123,
+                    "name": "json",
+                    "mime_type": "application\/json"
+                },
+                {
+                    "id": 124,
+                    "name": "aep",
+                    "mime_type": "application\/vnd.audiograph"
+                },
+                {
+                    "id": 127,
+                    "name": "lottie",
+                    "mime_type": "octet-stream"
+                },
+                {
+                    "id": 168,
+                    "name": "tgs",
+                    "mime_type": ""
+                }
+            ],
+            "collections": []
+        },
+        "items": {
+            "current_page": 1,
+            "data": [
+                {
+                    "id": 8433613,
+                    "uuid": "82bb1940-9429-11ee-bc1d-0242ac140003",
+                    "asset": "lottie",
+                    "raw_item_id": 10350904,
+                    "pack_id": 237019,
+                    "user_id": 155731,
+                    "custom_mockup": false,
+                    "mockup_preview": false,
+                    "price": 5,
+                    "priority": 7,
+                    "width": 1080,
+                    "height": 1080,
+                    "size": 7494,
+                    "style_id": null,
+                    "license_id": 71,
+                    "status": "active",
+                    "created_at": "2023-12-06 11:20:50",
+                    "modified_at": "2023-11-17 07:32:17",
+                    "deleted_at": null,
+                    "name": "Object Loading",
+                    "slug": "object-loading-10350904",
+                    "identifier": "object-loading-animated-icon_8433613",
+                    "lang": "en",
+                    "liked_by_user": false,
+                    "is_premium": true,
+                    "payable_price": 5,
+                    "licenses": [
+                        {
+                            "id": 71,
+                            "name": "Digital License",
+                            "description": "Single End product  - Single sale. Physical production up to 500,000 copies . No Merchandise use.",
+                            "link": "https:\/\/iconscout.com\/licenses#iconscout",
+                            "price": 5,
+                            "payable_price": 5,
+                            "attribution_required": 0,
+                            "downloaded_by_user": false,
+                            "is_subscription": false
+                        },
+                        {
+                            "id": 73,
+                            "name": "Physical Unlimited License",
+                            "description": "Single End product - Unlimited sales. Unlimited Physical production.  Unlimited use in Merchandise.",
+                            "link": "https:\/\/iconscout.com\/licenses#iconscout",
+                            "price": 50,
+                            "payable_price": 50,
+                            "attribution_required": 0,
+                            "downloaded_by_user": false,
+                            "is_subscription": false
+                        }
+                    ],
+                    "urls": {
+                        "thumb": "https:\/\/cdnl.iconscout.com\/lottie\/premium\/thumb\/object-loading-animated-icon-gif-download-8433613.mp4",
+                        "preview": "https:\/\/cdnl.iconscout.com\/lottie\/premium\/preview-watermark\/object-loading-animated-icon-gif-download-8433613.mp4",
+                        "preview_image": "https:\/\/cdnl.iconscout.com\/lottie\/premium\/preview\/object-loading-animated-icon-gif-download-8433613.png"
+                    },
+                    "canonical_url": null,
+                    "preview_files": [],
+                    "additional_formats": [
+                        "aep",
+                        "lottie"
+                    ],
+                    "additional_informations": {
+                        "nsfw": false,
+                        "category": "icon",
+                        "allowed_usage": "commercial",
+                        "preview_frame": 30,
+                        "background_type": "transparent",
+                        "is_canva_supported": true,
+                        "iconscout_exclusive": false,
+                        "is_thorvg_supported": true,
+                        "is_creator_supported": true,
+                        "frame_rate": 29.970001220703,
+                        "version": "4.8.0",
+                        "generator": "LottieFiles AE 3.5.2",
+                        "no_of_layers": 1,
+                        "total_frames": 60.00000244385
+                    },
+                    "formats": [
+                        {
+                            "id": 19,
+                            "name": "gif",
+                            "mime_type": "image\/gif"
+                        },
+                        {
+                            "id": 22,
+                            "name": "mp4",
+                            "mime_type": "video\/mp4"
+                        },
+                        {
+                            "id": 123,
+                            "name": "json",
+                            "mime_type": "application\/json"
+                        },
+                        {
+                            "id": 124,
+                            "name": "aep",
+                            "mime_type": "application\/vnd.audiograph"
+                        },
+                        {
+                            "id": 127,
+                            "name": "lottie",
+                            "mime_type": "octet-stream"
+                        },
+                        {
+                            "id": 168,
+                            "name": "tgs",
+                            "mime_type": ""
+                        }
+                    ],
+                    "color_codes": [
+                        {
+                            "decimal_color": 7361716,
+                            "color_id": 452
+                        }
+                    ],
+                    "contributor": {
+                        "id": 155731,
+                        "uuid": "d408caf0-998a-11ea-b8d4-0242ac140003",
+                        "first_name": "Yudha",
+                        "last_name": "Dwiyoko Putra",
+                        "company": "Brocz Design",
+                        "username": "broczdesign",
+                        "description": "Make Animation Great Again",
+                        "designation": [
+                            "icon-designer",
+                            "3d-designer",
+                            "motion-designer"
+                        ],
+                        "created_at": "2020-05-19 04:40:13",
+                        "updated_at": "2025-10-21 18:15:48",
+                        "deleted_at": null,
+                        "items_count": 8981,
+                        "packs_count": 219,
+                        "followers_count": 10,
+                        "sales_count": 1475,
+                        "followed_by_user": false,
+                        "name": "Yudha Dwiyoko Putra",
+                        "urls": {
+                            "small": "https:\/\/cdn.iconscout.com\/profile-photo\/large\/yudha-dwiyoko-putra-155731.jpg?w=100&h=100&updated_at=1761070548",
+                            "normal": "https:\/\/cdn.iconscout.com\/profile-photo\/large\/yudha-dwiyoko-putra-155731.jpg?w=400&h=400&updated_at=1761070548",
+                            "large": "https:\/\/cdn.iconscout.com\/profile-photo\/large\/yudha-dwiyoko-putra-155731.jpg?w=800&h=800&updated_at=1761070548"
+                        }
+                    },
+                    "tags": [
+                        {
+                            "id": 1544,
+                            "orderable_id": 1,
+                            "name": "object",
+                            "slug": "object",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1179,
+                            "orderable_id": 2,
+                            "name": "shape",
+                            "slug": "shape",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 824,
+                            "orderable_id": 3,
+                            "name": "element",
+                            "slug": "element",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1120,
+                            "orderable_id": 4,
+                            "name": "design",
+                            "slug": "design",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 3998,
+                            "orderable_id": 5,
+                            "name": "abstract",
+                            "slug": "abstract",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 2737,
+                            "orderable_id": 6,
+                            "name": "symbol",
+                            "slug": "symbol",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 3269,
+                            "orderable_id": 7,
+                            "name": "pattern",
+                            "slug": "pattern",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 325582,
+                            "orderable_id": 8,
+                            "name": "abstract shape",
+                            "slug": "abstract-shape",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1073,
+                            "orderable_id": 9,
+                            "name": "figure",
+                            "slug": "figure",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 8511,
+                            "orderable_id": 10,
+                            "name": "shapes",
+                            "slug": "shapes",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 387,
+                            "orderable_id": 11,
+                            "name": "loading",
+                            "slug": "loading",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 180,
+                            "orderable_id": 12,
+                            "name": "refresh",
+                            "slug": "refresh",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 181,
+                            "orderable_id": 13,
+                            "name": "reload",
+                            "slug": "reload",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1414,
+                            "orderable_id": 14,
+                            "name": "processing",
+                            "slug": "processing",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 908,
+                            "orderable_id": 15,
+                            "name": "sync",
+                            "slug": "sync",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 2061,
+                            "orderable_id": 16,
+                            "name": "load",
+                            "slug": "load",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1351,
+                            "orderable_id": 17,
+                            "name": "process",
+                            "slug": "process",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 5444,
+                            "orderable_id": 18,
+                            "name": "waiting",
+                            "slug": "waiting",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 6998,
+                            "orderable_id": 19,
+                            "name": "loader",
+                            "slug": "loader",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1461,
+                            "orderable_id": 20,
+                            "name": "progress",
+                            "slug": "progress",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 33198,
+                            "orderable_id": 21,
+                            "name": "preloader",
+                            "slug": "preloader",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 17046,
+                            "orderable_id": 22,
+                            "name": "buffering",
+                            "slug": "buffering",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 906,
+                            "orderable_id": 23,
+                            "name": "update",
+                            "slug": "update",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 4532,
+                            "orderable_id": 24,
+                            "name": "repeat",
+                            "slug": "repeat",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1612,
+                            "orderable_id": 25,
+                            "name": "synchronization",
+                            "slug": "synchronization",
+                            "lang": "en"
+                        }
+                    ],
+                    "style": null,
+                    "collections": []
+                },
+                {
+                    "id": 8433612,
+                    "uuid": "82bb0f90-9429-11ee-8de2-0242ac140003",
+                    "asset": "lottie",
+                    "raw_item_id": 10350903,
+                    "pack_id": 237019,
+                    "user_id": 155731,
+                    "custom_mockup": false,
+                    "mockup_preview": false,
+                    "price": 5,
+                    "priority": 7,
+                    "width": 1080,
+                    "height": 1000,
+                    "size": 203897,
+                    "style_id": null,
+                    "license_id": 71,
+                    "status": "active",
+                    "created_at": "2023-12-06 11:20:50",
+                    "modified_at": "2023-11-17 07:32:17",
+                    "deleted_at": null,
+                    "name": "Skater Loading",
+                    "slug": "skater-loading-10350903",
+                    "identifier": "skater-loading-animated-icon_8433612",
+                    "lang": "en",
+                    "liked_by_user": false,
+                    "is_premium": true,
+                    "payable_price": 5,
+                    "licenses": [
+                        {
+                            "id": 71,
+                            "name": "Digital License",
+                            "description": "Single End product  - Single sale. Physical production up to 500,000 copies . No Merchandise use.",
+                            "link": "https:\/\/iconscout.com\/licenses#iconscout",
+                            "price": 5,
+                            "payable_price": 5,
+                            "attribution_required": 0,
+                            "downloaded_by_user": false,
+                            "is_subscription": false
+                        },
+                        {
+                            "id": 73,
+                            "name": "Physical Unlimited License",
+                            "description": "Single End product - Unlimited sales. Unlimited Physical production.  Unlimited use in Merchandise.",
+                            "link": "https:\/\/iconscout.com\/licenses#iconscout",
+                            "price": 50,
+                            "payable_price": 50,
+                            "attribution_required": 0,
+                            "downloaded_by_user": false,
+                            "is_subscription": false
+                        }
+                    ],
+                    "urls": {
+                        "thumb": "https:\/\/cdnl.iconscout.com\/lottie\/premium\/thumb\/skater-loading-animated-icon-gif-download-8433612.mp4",
+                        "preview": "https:\/\/cdnl.iconscout.com\/lottie\/premium\/preview-watermark\/skater-loading-animated-icon-gif-download-8433612.mp4",
+                        "preview_image": "https:\/\/cdnl.iconscout.com\/lottie\/premium\/preview\/skater-loading-animated-icon-gif-download-8433612.png"
+                    },
+                    "canonical_url": null,
+                    "preview_files": [],
+                    "additional_formats": [
+                        "aep",
+                        "lottie"
+                    ],
+                    "additional_informations": {
+                        "nsfw": false,
+                        "category": "icon",
+                        "allowed_usage": "commercial",
+                        "preview_frame": 65,
+                        "background_type": "transparent",
+                        "iconscout_exclusive": false,
+                        "frame_rate": 29.970001220703,
+                        "version": "5.5.7",
+                        "generator": "LottieFiles AE 0.1.20",
+                        "no_of_layers": 4,
+                        "total_frames": 130.00000529501
+                    },
+                    "formats": [
+                        {
+                            "id": 19,
+                            "name": "gif",
+                            "mime_type": "image\/gif"
+                        },
+                        {
+                            "id": 22,
+                            "name": "mp4",
+                            "mime_type": "video\/mp4"
+                        },
+                        {
+                            "id": 123,
+                            "name": "json",
+                            "mime_type": "application\/json"
+                        },
+                        {
+                            "id": 124,
+                            "name": "aep",
+                            "mime_type": "application\/vnd.audiograph"
+                        },
+                        {
+                            "id": 127,
+                            "name": "lottie",
+                            "mime_type": "octet-stream"
+                        },
+                        {
+                            "id": 168,
+                            "name": "tgs",
+                            "mime_type": ""
+                        }
+                    ],
+                    "color_codes": [
+                        {
+                            "decimal_color": 7361716,
+                            "color_id": 452
+                        }
+                    ],
+                    "contributor": {
+                        "id": 155731,
+                        "uuid": "d408caf0-998a-11ea-b8d4-0242ac140003",
+                        "first_name": "Yudha",
+                        "last_name": "Dwiyoko Putra",
+                        "company": "Brocz Design",
+                        "username": "broczdesign",
+                        "description": "Make Animation Great Again",
+                        "designation": [
+                            "icon-designer",
+                            "3d-designer",
+                            "motion-designer"
+                        ],
+                        "created_at": "2020-05-19 04:40:13",
+                        "updated_at": "2025-10-21 18:15:48",
+                        "deleted_at": null,
+                        "items_count": 8981,
+                        "packs_count": 219,
+                        "followers_count": 10,
+                        "sales_count": 1475,
+                        "followed_by_user": false,
+                        "name": "Yudha Dwiyoko Putra",
+                        "urls": {
+                            "small": "https:\/\/cdn.iconscout.com\/profile-photo\/large\/yudha-dwiyoko-putra-155731.jpg?w=100&h=100&updated_at=1761070548",
+                            "normal": "https:\/\/cdn.iconscout.com\/profile-photo\/large\/yudha-dwiyoko-putra-155731.jpg?w=400&h=400&updated_at=1761070548",
+                            "large": "https:\/\/cdn.iconscout.com\/profile-photo\/large\/yudha-dwiyoko-putra-155731.jpg?w=800&h=800&updated_at=1761070548"
+                        }
+                    },
+                    "tags": [
+                        {
+                            "id": 13629,
+                            "orderable_id": 1,
+                            "name": "skater",
+                            "slug": "skater",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 7671,
+                            "orderable_id": 2,
+                            "name": "skateboarding",
+                            "slug": "skateboarding",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 6963,
+                            "orderable_id": 3,
+                            "name": "skateboard",
+                            "slug": "skateboard",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 238,
+                            "orderable_id": 4,
+                            "name": "board",
+                            "slug": "board",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 4220,
+                            "orderable_id": 5,
+                            "name": "activity",
+                            "slug": "activity",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 149,
+                            "orderable_id": 6,
+                            "name": "game",
+                            "slug": "game",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 2918,
+                            "orderable_id": 7,
+                            "name": "sports",
+                            "slug": "sports",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1134,
+                            "orderable_id": 8,
+                            "name": "sport",
+                            "slug": "sport",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 5502,
+                            "orderable_id": 9,
+                            "name": "skate",
+                            "slug": "skate",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1090,
+                            "orderable_id": 10,
+                            "name": "training",
+                            "slug": "training",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 387,
+                            "orderable_id": 11,
+                            "name": "loading",
+                            "slug": "loading",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 180,
+                            "orderable_id": 12,
+                            "name": "refresh",
+                            "slug": "refresh",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 181,
+                            "orderable_id": 13,
+                            "name": "reload",
+                            "slug": "reload",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1414,
+                            "orderable_id": 14,
+                            "name": "processing",
+                            "slug": "processing",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 908,
+                            "orderable_id": 15,
+                            "name": "sync",
+                            "slug": "sync",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 2061,
+                            "orderable_id": 16,
+                            "name": "load",
+                            "slug": "load",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1351,
+                            "orderable_id": 17,
+                            "name": "process",
+                            "slug": "process",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 5444,
+                            "orderable_id": 18,
+                            "name": "waiting",
+                            "slug": "waiting",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 6998,
+                            "orderable_id": 19,
+                            "name": "loader",
+                            "slug": "loader",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1461,
+                            "orderable_id": 20,
+                            "name": "progress",
+                            "slug": "progress",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 33198,
+                            "orderable_id": 21,
+                            "name": "preloader",
+                            "slug": "preloader",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 17046,
+                            "orderable_id": 22,
+                            "name": "buffering",
+                            "slug": "buffering",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 906,
+                            "orderable_id": 23,
+                            "name": "update",
+                            "slug": "update",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 4532,
+                            "orderable_id": 24,
+                            "name": "repeat",
+                            "slug": "repeat",
+                            "lang": "en"
+                        },
+                        {
+                            "id": 1612,
+                            "orderable_id": 25,
+                            "name": "synchronization",
+                            "slug": "synchronization",
+                            "lang": "en"
+                        }
+                    ],
+                    "style": null,
+                    "collections": []
+                }
+            ],
+            "first_page_url": "http:\/\/iconscout.com\/api\/v2\/new-items\/bicycle-loading-animated-icon_8433611?page=1",
+            "from": 1,
+            "last_page": 1,
+            "last_page_url": "http:\/\/iconscout.com\/api\/v2\/new-items\/bicycle-loading-animated-icon_8433611?page=1",
+            "next_page_url": null,
+            "path": "http:\/\/iconscout.com\/api\/v2\/new-items\/bicycle-loading-animated-icon_8433611",
+            "per_page": 15,
+            "prev_page_url": null,
+            "to": 2,
+            "total": 2
+        },
+        "gsc_keywords": [],
+        "trending_keywords": [],
+        "meta_tags": {
+            "title": " Bicycle Loading Animated Icon - Free Download User Interface Animated Icons | IconScout",
+            "description": "Elevate your creative projects with   Bicycle Loading Animated Icons, meticulously curated for User Interface enthusiasts. Available in GIF, static SVG, Lottie JSON files. Free Download Bicycle Loading Animated Icons for Canva, Figma, Adobe XD, After Effects, Sketch & more."
+        },
+        "translation": {
+            "en": "bicycle-loading-10350902_8433611",
+            "pt": "carregamento-de-bicicleta-10350902_8433611",
+            "fr": "chargement-de-velos-10350902_8433611",
+            "es": "carga-bicicleta-10350902_8433611"
+        },
+        "search_insight": {
+            "index_name": "items",
+            "ip_address": "2401:4900:1c3e:78bc:ac66:23a9:80df:4a0e"
+        }
+    },
+    "meta": {
+        "total_time": 190.16,
+        "db_query_time": 0,
+        "db_query_count": 0
+    },
+    "elements": null,
+    "message": null
+}
