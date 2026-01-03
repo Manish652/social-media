@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import cloudinary from "../configs/cloudinary.js"; // import Cloudinary
 import UserModel from "../models/UserModel.js";
 
 dotenv.config();
@@ -22,24 +21,9 @@ export const registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Client-side upload: profilePictureUrl comes from frontend (bypasses server network)
-    // Server-side upload: use req.file (fallback for backward compatibility)
-    let profilePicture = profilePictureUrl;
-
-    if (!profilePicture && req.file) {
-      // Fallback: Server-side upload if client upload fails
-      console.log("[Server Upload] Client upload not used, falling back to server upload");
-      const b64 = Buffer.from(req.file.buffer).toString("base64");
-      const dataURI = `data:${req.file.mimetype};base64,${b64}`;
-
-      const result = await cloudinary.uploader.upload(dataURI, {
-        resource_type: "image",
-        folder: "user_profiles",
-        timeout: 600000,
-      });
-      profilePicture = result.secure_url;
-      console.log("[Server Upload] Success:", profilePicture);
-    } else if (profilePicture) {
+    // Direct client upload
+    const profilePicture = profilePictureUrl || "";
+    if (profilePicture) {
       console.log("[Client Upload] Using client-uploaded URL:", profilePicture);
     }
 
@@ -141,24 +125,10 @@ export const editProfile = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Client-side upload: profilePictureUrl comes from frontend (bypasses server network)
-    // Server-side upload: use req.file (fallback for backward compatibility)
+    // Direct client upload
     if (profilePictureUrl) {
       console.log("[Client Upload] Using client-uploaded URL:", profilePictureUrl);
       user.profilePicture = profilePictureUrl;
-    } else if (req.file) {
-      // Fallback: Server-side upload if client upload fails
-      console.log("[Server Upload] Client upload not used, falling back to server upload");
-      const b64 = Buffer.from(req.file.buffer).toString("base64");
-      const dataURI = `data:${req.file.mimetype};base64,${b64}`;
-
-      const result = await cloudinary.uploader.upload(dataURI, {
-        resource_type: "image",
-        folder: "user_profiles",
-        timeout: 600000,
-      });
-      user.profilePicture = result.secure_url;
-      console.log("[Server Upload] Success:", user.profilePicture);
     }
 
     if (username) user.username = username;

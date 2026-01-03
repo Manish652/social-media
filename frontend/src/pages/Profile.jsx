@@ -1,7 +1,8 @@
-import { Bookmark, Grid, Menu, Pencil, Settings, Trash2 } from "lucide-react";
+import { Bookmark, Grid, Menu, Pencil, PlusCircle, Settings, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axios";
+import FollowListModal from "../components/common/FollowListModal.jsx";
 import Layout from "../components/layout/Layout.jsx";
 import PostCard from "../components/post/PostCard.jsx";
 import { userAuth } from "../context/AuthContext";
@@ -23,16 +24,8 @@ export default function Profile() {
   const [profileImageFile, setProfileImageFile] = useState(null);
   const [preview, setPreview] = useState("");
 
-  // Story modal state
-  const [openStory, setOpenStory] = useState(false);
-  const [storyMode, setStoryMode] = useState("media"); // 'media' | 'text'
-  const [storyFile, setStoryFile] = useState(null);
-  const [storyPreview, setStoryPreview] = useState("");
-  const [storyCaption, setStoryCaption] = useState("");
-  const [storyText, setStoryText] = useState("");
-  const [storyBg, setStoryBg] = useState("#000000");
-  const [storySubmitting, setStorySubmitting] = useState(false);
-  const [storyError, setStoryError] = useState("");
+  const [showFollowModal, setShowFollowModal] = useState(false);
+  const [followModalType, setFollowModalType] = useState("followers");
 
   const profilePosts = [
     "https://images.unsplash.com/photo-1684745865477-e165dddd368a?w=400&h=400&fit=crop",
@@ -187,6 +180,15 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50/30 to-pink-50/30 pb-24">
+      {/* Follow List Modal */}
+      <FollowListModal
+        isOpen={showFollowModal}
+        onClose={() => setShowFollowModal(false)}
+        userId={user?._id}
+        type={followModalType}
+        currentUserId={user?._id}
+      />
+
       {/* Header */}
       <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-2xl border-b border-gray-200/60 shadow-sm">
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -194,157 +196,22 @@ export default function Profile() {
             {profile.username || "Username"}
           </h2>
           <div className="flex items-center gap-2">
+            <Link
+              to="/create-story"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow hover:shadow-md transition-all hover:scale-105 active:scale-95"
+            >
+              <PlusCircle size={18} />
+              <span className="text-xs font-semibold">Story</span>
+            </Link>
             <button className="p-2.5 hover:bg-gray-100 rounded-full transition-all hover:scale-105 active:scale-95">
               <Settings size={22} className="text-gray-700" />
             </button>
             <button className="p-2.5 hover:bg-gray-100 rounded-full transition-all hover:scale-105 active:scale-95">
               <Menu size={22} className="text-gray-700" />
             </button>
-            <button
-              onClick={() => setOpenStory(true)}
-              className="px-3 py-1.5 text-xs font-semibold rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow hover:shadow-md"
-            >
-              + Story
-            </button>
           </div>
         </div>
       </div>
-
-      {/* Create Story Modal */}
-      {openStory && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
-          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-3 border-b">
-              <div className="font-semibold">Create Story</div>
-              <button onClick={() => setOpenStory(false)} className="text-sm text-gray-500 hover:text-gray-700">Close</button>
-            </div>
-            <div className="p-4">
-              <div className="flex gap-2 mb-3">
-                <button
-                  type="button"
-                  className={`px-3 py-1 rounded-lg text-sm ${storyMode === "media" ? "bg-black text-white" : "bg-gray-100"}`}
-                  onClick={() => setStoryMode("media")}
-                >Image/Video</button>
-                <button
-                  type="button"
-                  className={`px-3 py-1 rounded-lg text-sm ${storyMode === "text" ? "bg-black text-white" : "bg-gray-100"}`}
-                  onClick={() => setStoryMode("text")}
-                >Text Story</button>
-              </div>
-
-              {storyMode === "media" ? (
-                <div className="space-y-3">
-                  <input
-                    type="file"
-                    accept="image/*,video/*"
-                    onChange={(e) => {
-                      const f = e.target.files?.[0];
-                      setStoryFile(f || null);
-                      try { setStoryPreview(f ? URL.createObjectURL(f) : ""); } catch { }
-                    }}
-                  />
-                  {storyPreview && (
-                    <div>
-                      {storyFile?.type?.startsWith("image/") ? (
-                        <img src={storyPreview} alt="preview" className="max-h-72 rounded border" />
-                      ) : (
-                        <video src={storyPreview} controls className="max-h-72 rounded border bg-black" />
-                      )}
-                    </div>
-                  )}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Caption (optional)</label>
-                    <input
-                      value={storyCaption}
-                      onChange={(e) => setStoryCaption(e.target.value)}
-                      className="w-full border rounded-lg px-3 py-2 text-sm"
-                      placeholder="Say something about your story..."
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Text</label>
-                    <textarea
-                      value={storyText}
-                      onChange={(e) => setStoryText(e.target.value)}
-                      rows={4}
-                      className="w-full border rounded-lg px-3 py-2 text-sm"
-                      placeholder="Type your story text..."
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Background color</label>
-                    <div className="flex flex-wrap gap-2">
-                      {["#000000", "#111827", "#f59e0b", "#22c55e", "#3b82f6", "#8b5cf6", "#ec4899", "#f43f5e"].map((c) => (
-                        <button
-                          key={c}
-                          type="button"
-                          onClick={() => setStoryBg(c)}
-                          className={`w-8 h-8 rounded-md border ${storyBg === c ? "ring-2 ring-black" : ""}`}
-                          style={{ backgroundColor: c }}
-                          aria-label={c}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <div className="rounded-xl border" style={{ backgroundColor: storyBg }}>
-                    <div className="min-h-[140px] flex items-center justify-center p-4">
-                      <p className="text-white font-semibold whitespace-pre-wrap text-center">{storyText || "Preview"}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {storyError && <div className="text-sm text-red-600 mt-3">{storyError}</div>}
-
-              <div className="mt-4 flex justify-end gap-2">
-                <button onClick={() => setOpenStory(false)} className="px-4 py-2 text-sm rounded-lg border">Cancel</button>
-                <button
-                  onClick={async () => {
-                    try {
-                      setStoryError("");
-                      setStorySubmitting(true);
-                      if (storyMode === "text") {
-                        if (!storyText.trim()) throw new Error("Please enter some text");
-                        await api.post("/story/create", {
-                          mediaType: "text",
-                          text: storyText.trim(),
-                          bgColor: storyBg,
-                          caption: storyCaption || "",
-                        });
-                      } else {
-                        if (!storyFile) throw new Error("Please select an image or video");
-                        const fd = new FormData();
-                        fd.append("media", storyFile);
-                        if (storyCaption) fd.append("caption", storyCaption);
-                        await api.post("/story/create", fd, { headers: { "Content-Type": "multipart/form-data" } });
-                      }
-                      setOpenStory(false);
-                      setStoryMode("media");
-                      setStoryFile(null);
-                      setStoryPreview("");
-                      setStoryCaption("");
-                      setStoryText("");
-                      setStoryBg("#000000");
-                      alert("Story posted");
-                    } catch (err) {
-                      setStoryError(err?.response?.data?.message || err?.message || "Failed to post story");
-                    } finally {
-                      setStorySubmitting(false);
-                    }
-                  }}
-                  disabled={storySubmitting}
-                  className="px-4 py-2 text-sm rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white disabled:opacity-60"
-                >
-                  {storySubmitting ? "Posting..." : "Post Story"}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="max-w-2xl mx-auto px-4">
         {/* Profile info */}
@@ -362,23 +229,37 @@ export default function Profile() {
               <h2 className="text-2xl font-bold text-gray-900">{profile.username}</h2>
               <p className="text-gray-500 text-sm mt-1">{profile.email}</p>
               {profile.bio && (
-                <p className="mt-3 text-gray-700 leading-relaxed">{profile.bio}</p>
+                <div className="mt-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-3 border border-purple-100">
+                  <p className="text-gray-700 text-sm leading-relaxed">{profile.bio}</p>
+                </div>
               )}
-              <div className="flex items-center gap-6 mt-4">
+              <div className="flex items-center gap-4 mt-5">
                 {(() => {
                   const isMe = user?._id && (!profile?._id || String(user._id) === String(profile._id));
                   const followersArr = isMe && Array.isArray(user?.followers) ? user.followers : (Array.isArray(profile.followers) ? profile.followers : []);
                   const followingArr = isMe && Array.isArray(user?.following) ? user.following : (Array.isArray(profile.following) ? profile.following : []);
                   return (
                     <>
-                      <div className="text-center">
+                      <button
+                        onClick={() => {
+                          setFollowModalType("followers");
+                          setShowFollowModal(true);
+                        }}
+                        className="text-center hover:bg-purple-50 px-3 py-2 rounded-lg transition-colors"
+                      >
                         <div className="text-xl font-bold text-gray-900">{followersArr.length}</div>
                         <div className="text-xs text-gray-500 uppercase tracking-wide">Followers</div>
-                      </div>
-                      <div className="text-center">
+                      </button>
+                      <button
+                        onClick={() => {
+                          setFollowModalType("following");
+                          setShowFollowModal(true);
+                        }}
+                        className="text-center hover:bg-purple-50 px-3 py-2 rounded-lg transition-colors"
+                      >
                         <div className="text-xl font-bold text-gray-900">{followingArr.length}</div>
                         <div className="text-xs text-gray-500 uppercase tracking-wide">Following</div>
-                      </div>
+                      </button>
                     </>
                   );
                 })()}
@@ -387,7 +268,6 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Story highlights */}
         <div className="mt-4 bg-white rounded-2xl shadow-lg border border-gray-100 px-6 py-5 hover:shadow-xl transition-shadow">
           <h3 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">Story Highlights</h3>
           <div className="flex gap-5 overflow-x-auto scrollbar-hide pb-2">
@@ -409,7 +289,6 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Profile actions */}
         <form onSubmit={handleSave} className="mt-4 space-y-4 bg-white shadow-lg rounded-2xl border border-gray-100 p-6 hover:shadow-xl transition-shadow">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Edit Profile</h3>
           <div>

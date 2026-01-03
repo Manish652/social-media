@@ -8,6 +8,7 @@ import { userAuth } from "./context/AuthContext.jsx";
 import Chat from "./pages/Chat.jsx";
 import CreatePost from "./pages/CreatePost.jsx";
 import CreateReel from "./pages/CreateReel.jsx";
+import CreateStory from "./pages/CreateStory.jsx";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
@@ -42,7 +43,7 @@ function App() {
           element={<Signup />}
         />
         <Route
-          path='/profile/:id'
+          path='/profile'
           element={
             <ProtectedRoute>
               <Profile />
@@ -78,6 +79,14 @@ function App() {
           element={
             <ProtectedRoute>
               <CreateReel />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/create-story'
+          element={
+            <ProtectedRoute>
+              <CreateStory />
             </ProtectedRoute>
           }
         />

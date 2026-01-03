@@ -1,5 +1,6 @@
-import cloudinary from "../configs/cloudinary.js";
+import CommentModel from "../models/CommentModel.js";
 import ReelModel from "../models/ReelModel.js";
+import { createNotification } from "./notification.controller.js";
 
 //  Create a new reel
 export const createReel = async (req, res) => {
@@ -7,39 +8,19 @@ export const createReel = async (req, res) => {
     const userId = req.user._id;
     const { caption, videoUrl } = req.body;
 
-    // Client-side upload: videoUrl comes from frontend (bypasses server network)
-    // Server-side upload: use req.file (fallback for backward compatibility)
-    let finalVideoUrl = videoUrl;
-
-    if (!finalVideoUrl && req.file) {
-      // Fallback: Server-side upload if client upload fails
-      console.log("[Server Upload] Client upload not used, falling back to server upload");
-      const b64 = Buffer.from(req.file.buffer).toString("base64");
-      const dataURI = `data:${req.file.mimetype};base64,${b64}`;
-
-      const uploadResult = await cloudinary.uploader.upload(dataURI, {
-        resource_type: "video",
-        folder: "reels_uploads",
-        timeout: 600000,
-      });
-
-      finalVideoUrl = uploadResult.secure_url;
-      console.log("[Server Upload] Success:", finalVideoUrl);
-    } else if (finalVideoUrl) {
-      console.log("[Client Upload] Using client-uploaded URL:", finalVideoUrl);
+    if (!videoUrl) {
+      return res.status(400).json({ success: false, message: "Video URL is required" });
     }
 
-    if (!finalVideoUrl) {
-      return res.status(400).json({ success: false, message: "Video is required" });
-    }
+    console.log("[Client Upload] Using client-uploaded URL:", videoUrl);
 
     // Generate thumbnail URL from video URL
-    const thumbnailUrl = finalVideoUrl.replace(/\.(mp4|mov|avi)$/i, ".jpg");
+    const thumbnailUrl = videoUrl.replace(/\.(mp4|mov|avi)$/i, ".jpg");
 
     const reel = await ReelModel.create({
       userId,
       caption,
-      videoUrl: finalVideoUrl,
+      videoUrl,
       thumbnailUrl,
     });
 
@@ -75,9 +56,9 @@ export const getAllReels = async (req, res) => {
 export const likeReel = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { reelId } = req.params;
+    const { id } = req.params;
 
-    const reel = await ReelModel.findById(reelId);
+    const reel = await ReelModel.findById(id);
     if (!reel) {
       return res.status(404).json({ success: false, message: "Reel not found" });
     }
@@ -103,9 +84,9 @@ export const likeReel = async (req, res) => {
 export const deleteReel = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { reelId } = req.params;
+    const { id } = req.params;
 
-    const reel = await ReelModel.findById(reelId);
+    const reel = await ReelModel.findById(id);
 
     if (!reel) {
       return res.status(404).json({ success: false, message: "Reel not found" });
@@ -120,5 +101,66 @@ export const deleteReel = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: "Failed to delete reel" });
+  }
+};
+
+//  Add a comment to a reel
+export const addReelComment = async (req, res) => {
+  try {
+    const { text } = req.body;
+    const userId = req.user._id;
+    const reelId = req.params.id;
+
+    if (!text) {
+      return res.status(400).json({
+        success: false,
+        message: "Comment text is required",
+      });
+    }
+
+    const newComment = await CommentModel.create({
+      post: reelId,
+      user: userId,
+      text: text,
+    });
+
+    // Add comment to reel's comments array
+    await ReelModel.findByIdAndUpdate(reelId, { $addToSet: { comments: newComment._id } });
+
+    // Notify reel owner about new comment
+    const reel = await ReelModel.findById(reelId).select("userId");
+    if (reel && reel.userId && reel.userId.toString() !== userId.toString()) {
+      await createNotification("comment", userId, reel.userId, reelId);
+    }
+
+    const populatedComment = await CommentModel.findById(newComment._id)
+      .populate("user", "username profilePicture");
+
+    return res.status(200).json({
+      success: true,
+      message: "Comment added successfully",
+      comment: populatedComment,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to add comment",
+    });
+  }
+};
+
+//  Get all comments for a reel
+export const getReelComments = async (req, res) => {
+  try {
+    const reelId = req.params.id;
+    const comments = await CommentModel.find({ post: reelId })
+      .populate("user", "username profilePicture")
+      .sort({ createdAt: -1 });
+
+    res.json({ success: true, comments });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Failed to fetch comments" });
   }
 };

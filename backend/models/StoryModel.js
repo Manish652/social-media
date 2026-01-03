@@ -33,11 +33,30 @@ const storySchema = new mongoose.Schema({
     trim: true,
     default: "#000000"
   },
+  // Story duration in hours (2, 6, 12, 24)
+  duration: {
+    type: Number,
+    enum: [2, 6, 12, 24],
+    default: 24
+  },
   createdAt: {
     type: Date,
-    default: Date.now,
-    expires: "24h" // Auto delete story after 24 hours
+    default: Date.now
+  },
+  expiresAt: {
+    type: Date,
+    index: { expires: 0 } // TTL index - MongoDB will auto-delete when expiresAt is reached
   }
+});
+
+// Pre-save hook to set expiresAt based on duration
+storySchema.pre('save', function (next) {
+  if (this.isNew && !this.expiresAt) {
+    const now = this.createdAt || new Date();
+    const durationInMs = this.duration * 60 * 60 * 1000; // Convert hours to milliseconds
+    this.expiresAt = new Date(now.getTime() + durationInMs);
+  }
+  next();
 });
 
 const StoryModel = mongoose.model("Story", storySchema);

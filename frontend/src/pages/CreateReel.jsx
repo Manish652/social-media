@@ -1,4 +1,4 @@
-import { Sparkles, Upload, Video } from "lucide-react";
+import { Upload } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios.js";
@@ -34,14 +34,12 @@ export default function CreateReel() {
     try {
       setLoading(true);
 
-      // Upload video directly to Cloudinary (bypasses server network)
       setUploadProgress("Uploading video to Cloudinary...");
       const result = await uploadToCloudinary(video, "reels_uploads");
       const videoUrl = result.url;
 
       setUploadProgress("Creating reel...");
 
-      // Send reel data to backend (only URL, not file)
       await api.post("/reel/create", {
         videoUrl,
         caption,
@@ -60,20 +58,11 @@ export default function CreateReel() {
   };
 
   return (
-    <div className="min-h-screen pb-24 bg-gradient-to-br from-gray-50 via-purple-50/20 to-pink-50/20">
+    <div className="min-h-screen pb-24 bg-gray-50">
       <div className="max-w-2xl mx-auto px-4 pt-6">
-        {/* Header */}
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl mb-3">
-            <Video size={28} className="text-purple-600" />
-          </div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Create Reel
-          </h1>
-          <p className="text-sm text-gray-500 mt-1">Share your moment with the world</p>
-        </div>
+        <h2 className="text-2xl font-bold mb-6">Create Reel</h2>
 
-        <form onSubmit={onSubmit} className="space-y-6 bg-white p-6 rounded-2xl border border-gray-200/50 shadow-lg">
+        <form onSubmit={onSubmit} className="space-y-4 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           {/* Video Upload */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-3">Video</label>
@@ -96,12 +85,10 @@ export default function CreateReel() {
                 </button>
               </div>
             ) : (
-              <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer bg-gradient-to-br from-gray-50 to-purple-50/30 hover:bg-purple-50/50 transition-colors group">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Upload size={28} className="text-purple-600" />
-                  </div>
-                  <p className="mb-2 text-sm font-semibold text-gray-700">
+              <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400 hover:bg-gray-50 transition-colors">
+                <div className="flex flex-col items-center justify-center">
+                  <Upload size={32} className="text-gray-400 mb-3" />
+                  <p className="text-sm font-medium text-gray-700 mb-1">
                     Click to upload video
                   </p>
                   <p className="text-xs text-gray-500">MP4, MOV, AVI (MAX. 200MB)</p>
@@ -130,15 +117,19 @@ export default function CreateReel() {
 
           {/* Upload Progress */}
           {uploadProgress && (
-            <div className="bg-purple-50 border border-purple-200 rounded-xl px-4 py-3 flex items-center gap-3">
-              <div className="w-5 h-5 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
-              <span className="text-sm font-medium text-purple-700">{uploadProgress}</span>
+            <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-100">
+              <img
+                src="/src/assets/animations/Spinner-3.gif"
+                alt="Loading"
+                className="w-8 h-8"
+              />
+              <span className="text-sm text-purple-700 font-medium">{uploadProgress}</span>
             </div>
           )}
 
           {/* Error */}
           {err && (
-            <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-sm text-red-600">
+            <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600">
               {err}
             </div>
           )}
@@ -147,19 +138,9 @@ export default function CreateReel() {
           <button
             type="submit"
             disabled={loading || !video}
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+            className="w-full bg-black text-white font-medium py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-800 transition-colors"
           >
-            {loading ? (
-              <>
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                {uploadProgress || "Uploading..."}
-              </>
-            ) : (
-              <>
-                <Sparkles size={20} />
-                Create Reel
-              </>
-            )}
+            {loading ? uploadProgress || "Uploading..." : "Create Reel"}
           </button>
         </form>
       </div>

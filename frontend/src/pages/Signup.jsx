@@ -63,35 +63,79 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-xl p-8 w-96"
+        className="bg-white shadow-2xl rounded-3xl p-8 w-full max-w-md mx-4 border border-gray-100"
       >
-        <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+            Create Account
+          </h2>
+          <p className="text-gray-500 text-sm">Join us and start sharing</p>
+        </div>
 
-        <InputField label="Username" name="username" value={formData.username} onChange={handleChange} />
-        <InputField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} />
-        <InputField label="Password" name="password" type="password" value={formData.password} onChange={handleChange} />
-        <InputField label="Bio" name="bio" value={formData.bio} onChange={handleChange} />
-        <InputField label="Profile Picture" name="profilePicture" type="file" accept="image/*" onChange={handleChange} />
+        <InputField
+          label="Username"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          placeholder="Choose a username"
+          required
+        />
+        <InputField
+          label="Email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="your@email.com"
+          required
+        />
+        <InputField
+          label="Password"
+          name="password"
+          type="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Create a strong password"
+          required
+        />
+        <InputField
+          label="Bio (Optional)"
+          name="bio"
+          value={formData.bio}
+          onChange={handleChange}
+          placeholder="Tell us about yourself"
+        />
+        <InputField
+          label="Profile Picture (Optional)"
+          name="profilePicture"
+          type="file"
+          accept="image/*"
+          onChange={handleChange}
+        />
 
         {uploadProgress && (
-          <div className="text-sm text-blue-600 font-medium mt-2">
-            {uploadProgress}
+          <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl mt-4 border border-purple-100">
+            <div className="w-5 h-5 border-2 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
+            <span className="text-sm text-purple-700 font-medium">{uploadProgress}</span>
           </div>
         )}
 
         <button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg mt-4"
+          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-xl mt-6 disabled:opacity-50 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           disabled={loading}
         >
-          {loading ? uploadProgress || "Signing Up..." : "Sign Up"}
+          {loading ? "Creating account..." : "Sign Up"}
         </button>
 
-        <p className="text-center text-sm mt-3">
-          Already have an account? <a href="/login" className="text-blue-500">Login</a>
+        <p className="text-center text-sm mt-6 text-gray-600">
+          Already have an account?{" "}
+          <a href="/login" className="text-purple-600 font-semibold hover:underline">
+            Login
+          </a>
         </p>
       </form>
     </div>

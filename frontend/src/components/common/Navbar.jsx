@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from "react";
 import { Bell, LogOut } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import api from "../../api/axios.js";
@@ -9,7 +9,7 @@ export function Navbar({ onNotificationClick }) {
   const { user, token, logout } = userAuth();
   const isAuthed = Boolean(token);
   const avatar = user?.profilePicture || "https://via.placeholder.com/32";
-  const profileLink = user?._id ? `/profile/${user._id}` : "/login";
+  const profileLink = isAuthed ? "/profile" : "/login";
 
   // Notifications (backend)
   const [openNotif, setOpenNotif] = useState(false);
@@ -33,14 +33,14 @@ export function Navbar({ onNotificationClick }) {
     try {
       await api.delete(`/notification/${id}`);
       await fetchNotifications();
-    } catch {}
+    } catch { }
   };
 
   const clearAll = async () => {
     try {
       await Promise.all((notifications || []).map((n) => api.delete(`/notification/${n._id}`)));
       await fetchNotifications();
-    } catch {}
+    } catch { }
   };
 
   const markAllRead = async () => {
@@ -48,7 +48,7 @@ export function Navbar({ onNotificationClick }) {
       const unread = (notifications || []).filter((n) => !n.read);
       await Promise.all(unread.map((n) => api.put(`/notification/${n._id}/read`)));
       await fetchNotifications();
-    } catch {}
+    } catch { }
   };
 
   useEffect(() => {
@@ -77,8 +77,8 @@ export function Navbar({ onNotificationClick }) {
     <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-2xl border-b border-gray-200/60 shadow-sm">
       <div className="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between gap-4">
         {/* Logo */}
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent hover:scale-105 transition-transform"
         >
           Vibe
@@ -130,12 +130,12 @@ export function Navbar({ onNotificationClick }) {
                       const msg = kind === "follow"
                         ? `${from} started following you`
                         : kind === "like"
-                        ? `${from} liked your post`
-                        : kind === "comment"
-                        ? `${from} commented on your post`
-                        : kind === "post"
-                        ? `${from} posted new content`
-                        : `${from} has an update`;
+                          ? `${from} liked your post`
+                          : kind === "comment"
+                            ? `${from} commented on your post`
+                            : kind === "post"
+                              ? `${from} posted new content`
+                              : `${from} has an update`;
                       return (
                         <div key={n._id} className="px-4 py-3 flex items-start gap-3 hover:bg-gray-50">
                           <img src={n?.fromUser?.profilePicture || "https://via.placeholder.com/32"} alt="from" className="w-7 h-7 rounded-full object-cover border" />
@@ -156,7 +156,7 @@ export function Navbar({ onNotificationClick }) {
           {isAuthed ? (
             <>
               {/* Profile Picture */}
-              <Link 
+              <Link
                 to={profileLink}
                 className="relative group"
               >
@@ -180,14 +180,14 @@ export function Navbar({ onNotificationClick }) {
             </>
           ) : (
             <div className="flex items-center gap-2">
-              <Link 
-                to="/login" 
+              <Link
+                to="/login"
                 className="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all"
               >
                 Login
               </Link>
-              <Link 
-                to="/signup" 
+              <Link
+                to="/signup"
                 className="px-4 py-2 text-sm font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95"
               >
                 Sign Up

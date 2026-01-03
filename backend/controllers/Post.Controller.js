@@ -1,48 +1,25 @@
-import cloudinary from "../configs/cloudinary.js";
 import PostModel from "../models/PostModel.js";
 import UserModel from "../models/UserModel.js";
 import { createNotification } from "./notification.controller.js";
 
-/// create post
+// create post
 
 export const createPost = async (req, res) => {
-
     try {
         const { caption, mediaUrl, mediaType } = req.body;
         const userId = req.user._id;
 
-        // Client-side upload: mediaUrl comes from frontend (bypasses server network)
-        // Server-side upload: use req.file (fallback for backward compatibility)
-        let finalMediaUrl = mediaUrl;
-
-        if (!finalMediaUrl && req.file) {
-            try {
-                // Fallback: Server-side upload if client upload fails
-                console.log("[Server Upload] Client upload not used, falling back to server upload");
-                const b64 = Buffer.from(req.file.buffer).toString("base64");
-                const dataURI = `data:${req.file.mimetype};base64,${b64}`;
-
-                const result = await cloudinary.uploader.upload(dataURI, {
-                    resource_type: "auto",
-                    folder: "socal_media_uploads",
-                    timeout: 300000,
-                });
-
-                finalMediaUrl = result.secure_url;
-                console.log("[Server Upload] Success:", finalMediaUrl);
-            } catch (uploadError) {
-                console.error("[Server Upload] Failed:", uploadError);
-                throw uploadError;
-            }
-        } else if (finalMediaUrl) {
-            console.log("[Client Upload] Using client-uploaded URL:", finalMediaUrl);
+        if (!mediaUrl) {
+            console.log("[Client Upload] No media URL provided");
+        } else {
+            console.log("[Client Upload] Using client-uploaded URL:", mediaUrl);
         }
 
         const newpost = await PostModel.create({
             userId,
             caption,
-            image: mediaType === "image" ? finalMediaUrl : null,
-            video: mediaType === "video" ? finalMediaUrl : null,
+            image: mediaType === "image" ? mediaUrl : null,
+            video: mediaType === "video" ? mediaUrl : null,
         })
 
         // notify all followers about the new post (ignore failures)
@@ -93,8 +70,6 @@ export const getAllPost = async (req, res) => {
     }
 
 }
-
-
 
 // get single Post By Id
 

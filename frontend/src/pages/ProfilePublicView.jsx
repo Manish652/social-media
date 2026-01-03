@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api/axios.js";
-import { userAuth } from "../context/AuthContext.jsx";
+import FollowListModal from "../components/common/FollowListModal.jsx";
 import PostCard from "../components/post/PostCard.jsx";
+import { userAuth } from "../context/AuthContext.jsx";
 
 export default function ProfilePublicView() {
   const { id } = useParams();
@@ -11,6 +12,8 @@ export default function ProfilePublicView() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showFollowModal, setShowFollowModal] = useState(false);
+  const [followModalType, setFollowModalType] = useState("followers");
 
   const isMe = useMemo(() => user?._id && id && String(user._id) === String(id), [user?._id, id]);
   const isFollowing = useMemo(() => {
@@ -44,26 +47,48 @@ export default function ProfilePublicView() {
           return uid && String(uid) === String(id);
         });
         setPosts(userPosts);
-      } catch {}
+      } catch { }
     };
     if (id) loadPosts();
   }, [id]);
 
   const handleFollow = async () => {
     updateFollowing(id, "follow");
+    // Optimistically update local profile
+    setProfile(prev => ({
+      ...prev,
+      followers: [...(prev.followers || []), user._id]
+    }));
     try {
       await api.post(`/follow/${id}/follow`);
+      // Refresh profile to get accurate count
+      const { data } = await api.get(`/user/profile/${id}`);
+      setProfile(data);
     } catch (e) {
       updateFollowing(id, "unfollow");
+      // Revert on error
+      const { data } = await api.get(`/user/profile/${id}`);
+      setProfile(data);
     }
   };
 
   const handleUnfollow = async () => {
     updateFollowing(id, "unfollow");
+    // Optimistically update local profile
+    setProfile(prev => ({
+      ...prev,
+      followers: (prev.followers || []).filter(fid => String(fid) !== String(user._id))
+    }));
     try {
       await api.post(`/follow/${id}/unfollow`);
+      // Refresh profile to get accurate count
+      const { data } = await api.get(`/user/profile/${id}`);
+      setProfile(data);
     } catch (e) {
       updateFollowing(id, "follow");
+      // Revert on error
+      const { data } = await api.get(`/user/profile/${id}`);
+      setProfile(data);
     }
   };
 
@@ -71,7 +96,7 @@ export default function ProfilePublicView() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+          <div className="w-20 h-20 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
           <p className="text-gray-600 font-medium">Loading profile...</p>
         </div>
       </div>
@@ -110,67 +135,77 @@ export default function ProfilePublicView() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
-      {/* Header with gradient backdrop */}
-      <div className="relative bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 h-34">
-        <div className="absolute inset-0 bg-black opacity-10"></div>
-        <div className="absolute inset-0 backdrop-blur-3xl"></div>
+      {/* Follow List Modal */}
+      <FollowListModal
+        isOpen={showFollowModal}
+        onClose={() => setShowFollowModal(false)}
+        userId={id}
+        type={followModalType}
+        currentUserId={user?._id}
+      />
+
+      {/* Header with animated gradient backdrop */}
+      <div className="relative bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 h-48 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-purple-400/20 via-pink-400/20 to-transparent"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-400/20 via-purple-400/20 to-transparent"></div>
+        <div className="absolute inset-0 backdrop-blur-3xl opacity-50"></div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 -mt-32 pb-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-24 pb-12">
         {/* Profile Card */}
-        <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden transform transition-all duration-300 hover:shadow-3xl">
+        <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden transform transition-all duration-500 hover:shadow-purple-500/10 hover:shadow-3xl">
           {/* Profile Header */}
-          <div className="p-8">
-            <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-              {/* Avatar with gradient ring */}
+          <div className="p-8 sm:p-10">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+              {/* Avatar with animated gradient ring */}
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 rounded-full opacity-75 group-hover:opacity-100 blur transition duration-300"></div>
-                <img
-                  src={profile.profilePicture || "https://via.placeholder.com/150"}
-                  alt="avatar"
-                  className="relative w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
-                />
-                {!isMe && (
-                  <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full p-1">
-                    <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center">
-                      {isFollowing ? (
-                        <span className="text-purple-600">✓</span>
-                      ) : (
-                        <span className="text-purple-600">+</span>
-                      )}
+                <div className="absolute -inset-2 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 rounded-full opacity-75 group-hover:opacity-100 blur-md transition duration-500 animate-pulse"></div>
+                <div className="relative">
+                  <img
+                    src={profile.profilePicture || "https://via.placeholder.com/150"}
+                    alt="avatar"
+                    className="relative w-36 h-36 rounded-full object-cover border-4 border-white shadow-xl ring-4 ring-purple-100 transition-transform duration-300 group-hover:scale-105"
+                  />
+                  {!isMe && (
+                    <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full p-1 shadow-lg transform transition-transform duration-200 hover:scale-110">
+                      <div className="bg-white rounded-full w-10 h-10 flex items-center justify-center">
+                        {isFollowing ? (
+                          <span className="text-purple-600 text-lg">✓</span>
+                        ) : (
+                          <span className="text-purple-600 text-xl">+</span>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
 
               {/* Profile Info */}
-              <div className="flex-1 text-center md:text-left">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex-1 text-center md:text-left w-full">
+                {/* Username and Follow Button Row */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
                   <div>
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent mb-1">
                       {profile.username}
                     </h1>
-                    {profile.bio && (
-                      <p className="text-gray-600 mt-2 text-sm leading-relaxed max-w-md">
-                        {profile.bio}
-                      </p>
-                    )}
+                    <p className="text-gray-500 text-base font-medium">@{profile.username}</p>
                   </div>
 
                   {/* Follow Button */}
                   {!isMe && (
-                    <div>
+                    <div className="flex justify-center md:justify-start">
                       {!isFollowing ? (
                         <button
                           onClick={handleFollow}
-                          className="px-8 py-3 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                          className="group relative px-10 py-3.5 rounded-full bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white font-bold shadow-lg hover:shadow-2xl transform hover:-translate-y-1 active:translate-y-0 transition-all duration-300 overflow-hidden"
                         >
-                          Follow
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          <span className="relative">Follow</span>
                         </button>
                       ) : (
                         <button
                           onClick={handleUnfollow}
-                          className="px-8 py-3 rounded-full bg-white border-2 border-purple-200 text-purple-600 font-semibold hover:bg-purple-50 transition-all duration-200"
+                          className="px-10 py-3.5 rounded-full bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-300 text-purple-700 font-bold hover:bg-gradient-to-r hover:from-purple-100 hover:to-pink-100 hover:border-purple-400 transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-md hover:shadow-lg"
                         >
                           Following
                         </button>
@@ -179,9 +214,24 @@ export default function ProfilePublicView() {
                   )}
                 </div>
 
+                {/* Bio Section */}
+                {profile.bio && (
+                  <div className="mb-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-5 border border-purple-100 shadow-sm">
+                    <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">
+                      {profile.bio}
+                    </p>
+                  </div>
+                )}
+
                 {/* Stats */}
-                <div className="flex items-center justify-center md:justify-start gap-8 mt-6">
-                  <div className="relative group cursor-pointer">
+                <div className="flex items-center justify-center md:justify-start gap-6 md:gap-8">
+                  <button
+                    onClick={() => {
+                      setFollowModalType("followers");
+                      setShowFollowModal(true);
+                    }}
+                    className="relative group cursor-pointer"
+                  >
                     <div className="absolute inset-0 bg-purple-100 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                     <div className="relative px-6 py-3">
                       <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
@@ -191,11 +241,17 @@ export default function ProfilePublicView() {
                         Followers
                       </div>
                     </div>
-                  </div>
+                  </button>
 
                   <div className="w-px h-12 bg-gray-200"></div>
 
-                  <div className="relative group cursor-pointer">
+                  <button
+                    onClick={() => {
+                      setFollowModalType("following");
+                      setShowFollowModal(true);
+                    }}
+                    className="relative group cursor-pointer"
+                  >
                     <div className="absolute inset-0 bg-blue-100 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                     <div className="relative px-6 py-3">
                       <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -205,11 +261,11 @@ export default function ProfilePublicView() {
                         Following
                       </div>
                     </div>
-                  </div>
+                  </button>
 
                   <div className="w-px h-12 bg-gray-200"></div>
 
-                  <div className="relative group cursor-pointer">
+                  <div className="relative group">
                     <div className="absolute inset-0 bg-pink-100 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                     <div className="relative px-6 py-3">
                       <div className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
@@ -233,7 +289,7 @@ export default function ProfilePublicView() {
             <h2 className="text-xl font-bold text-gray-800">Posts</h2>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+          <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-lg border border-white/20 overflow-hidden">
             {posts.length === 0 ? (
               <div className="p-16 text-center">
                 <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -255,8 +311,8 @@ export default function ProfilePublicView() {
                       post={post}
                       isLiked={false}
                       isSaved={false}
-                      onLike={() => {}}
-                      onSave={() => {}}
+                      onLike={() => { }}
+                      onSave={() => { }}
                     />
                   </div>
                 ))}

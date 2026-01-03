@@ -1,11 +1,14 @@
-import cloudinary from "../configs/cloudinary.js";
 import StoryModel from "../models/StoryModel.js";
 
 // ✅ Create Story
 export const createStory = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { caption = "", mediaType = "image", text = "", bgColor = "#000000" } = req.body;
+    const { caption = "", mediaType = "image", text = "", bgColor = "#000000", mediaUrl, duration = 24 } = req.body;
+
+    // Validate duration
+    const validDurations = [2, 6, 12, 24];
+    const storyDuration = validDurations.includes(Number(duration)) ? Number(duration) : 24;
 
     // Text-only story
     if (mediaType === "text") {
@@ -17,34 +20,25 @@ export const createStory = async (req, res) => {
         mediaType: "text",
         text: text.trim(),
         bgColor,
-        caption: caption || ""
+        caption: caption || "",
+        duration: storyDuration
       });
       return res.status(201).json({ success: true, message: "Story created successfully", story });
     }
 
-    // Image/Video story requires a file
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: "Story media is required" });
+    // Image/Video story requires mediaUrl from client upload
+    if (!mediaUrl) {
+      return res.status(400).json({ success: false, message: "Story media URL is required" });
     }
 
-    // Upload using base64 (more reliable than stream)
-    const b64 = Buffer.from(req.file.buffer).toString("base64");
-    const dataURI = `data:${req.file.mimetype};base64,${b64}`;
-
-    const uploadResult = await cloudinary.uploader.upload(dataURI, {
-      resource_type: "auto",
-      folder: "social_media_stories",
-      timeout: 60000,
-    });
-
-    const mediaUrl = uploadResult.secure_url;
-    const deducedType = req.file.mimetype.startsWith("image/") ? "image" : "video";
+    console.log("[Client Upload] Using client-uploaded URL:", mediaUrl);
 
     const story = await StoryModel.create({
       user: userId,
       mediaUrl,
-      mediaType: deducedType,
-      caption: caption || ""
+      mediaType,
+      caption: caption || "",
+      duration: storyDuration
     });
 
     res.status(201).json({
