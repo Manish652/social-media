@@ -27,17 +27,7 @@ export default function Profile() {
   const [showFollowModal, setShowFollowModal] = useState(false);
   const [followModalType, setFollowModalType] = useState("followers");
 
-  const profilePosts = [
-    "https://images.unsplash.com/photo-1684745865477-e165dddd368a?w=400&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1668365011614-9c4a49a0e89d?w=400&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1699568542306-ca1ed61891e5?w=400&h=400&fit=crop",
-  ];
 
-  const storyHighlights = [
-    { id: 1, name: "Travel", image: "https://images.unsplash.com/photo-1684745865477-e165dddd368a?w=100&h=100&fit=crop" },
-    { id: 2, name: "Style", image: "https://images.unsplash.com/photo-1668365011614-9c4a49a0e89d?w=100&h=100&fit=crop" },
-    { id: 3, name: "Art", image: "https://images.unsplash.com/photo-1699568542306-ca1ed61891e5?w=100&h=100&fit=crop" },
-  ];
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -268,26 +258,7 @@ export default function Profile() {
           </div>
         </div>
 
-        <div className="mt-4 bg-white rounded-2xl shadow-lg border border-gray-100 px-6 py-5 hover:shadow-xl transition-shadow">
-          <h3 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">Story Highlights</h3>
-          <div className="flex gap-5 overflow-x-auto scrollbar-hide pb-2">
-            {storyHighlights.map((highlight) => (
-              <div key={highlight.id} className="flex flex-col items-center gap-2 flex-shrink-0 group cursor-pointer">
-                <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 rounded-full opacity-75 group-hover:opacity-100 blur-sm transition-opacity"></div>
-                  <div className="relative w-16 h-16 rounded-full bg-white p-[3px]">
-                    <img
-                      src={highlight.image}
-                      alt={highlight.name}
-                      className="w-full h-full rounded-full object-cover"
-                    />
-                  </div>
-                </div>
-                <span className="text-xs text-gray-600 font-medium">{highlight.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+    
 
         <form onSubmit={handleSave} className="mt-4 space-y-4 bg-white shadow-lg rounded-2xl border border-gray-100 p-6 hover:shadow-xl transition-shadow">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Edit Profile</h3>

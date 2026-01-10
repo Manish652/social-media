@@ -17,7 +17,6 @@ const storySchema = new mongoose.Schema({
     enum: ["image", "video", "text"],
     required: true
   },
-  // optional caption for media stories
   caption: {
     type: String,
     trim: true
@@ -45,7 +44,7 @@ const storySchema = new mongoose.Schema({
   },
   expiresAt: {
     type: Date,
-    index: { expires: 0 } // TTL index - MongoDB will auto-delete when expiresAt is reached
+    index: { expires: 0 } 
   }
 });
 

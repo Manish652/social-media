@@ -317,21 +317,23 @@ export default function Reels() {
 
               {/* User Info & Caption */}
               <div className="absolute bottom-24 left-4 right-20 pointer-events-none z-10">
-                <Link
-                  to={`/profile/${reel.userId.username}`}
-                  className="inline-flex items-center gap-3 mb-3 pointer-events-auto group"
-                >
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-0.5 ring-2 ring-white/50 group-hover:ring-white/80 transition-all">
-                    <img
-                      src={reel.userId.profilePicture}
-                      alt={reel.userId.username}
-                      className="w-full h-full rounded-full object-cover"
-                    />
-                  </div>
-                  <span className="text-white font-semibold text-lg drop-shadow-lg group-hover:scale-105 transition-transform">
-                    @{reel.userId.username}
-                  </span>
-                </Link>
+                {reel.userId && (
+                  <Link
+                    to={`/profile/${reel.userId.username}`}
+                    className="inline-flex items-center gap-3 mb-3 pointer-events-auto group"
+                  >
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-0.5 ring-2 ring-white/50 group-hover:ring-white/80 transition-all">
+                      <img
+                        src={reel.userId.profilePicture || "https://via.placeholder.com/48"}
+                        alt={reel.userId.username || "User"}
+                        className="w-full h-full rounded-full object-cover"
+                      />
+                    </div>
+                    <span className="text-white font-semibold text-lg drop-shadow-lg group-hover:scale-105 transition-transform">
+                      @{reel.userId.username || "User"}
+                    </span>
+                  </Link>
+                )}
 
                 {reel.caption && (
                   <div className="text-white text-sm leading-relaxed drop-shadow-lg backdrop-blur-sm bg-black/20 rounded-lg p-3 max-w-md">
@@ -347,15 +349,13 @@ export default function Reels() {
                   onClick={() => handleLike(reel._id, index)}
                   className="flex flex-col items-center gap-2 group"
                 >
-                  <div className={`w-14 h-14 rounded-full flex items-center justify-center backdrop-blur-md transition-all shadow-lg ${
-                    isLiked 
-                      ? 'bg-gradient-to-br from-pink-500 to-red-500 scale-110' 
-                      : 'bg-white/20 hover:bg-white/30 hover:scale-110'
-                  }`}>
+                  <div className={`w-14 h-14 rounded-full flex items-center justify-center backdrop-blur-md transition-all shadow-lg ${isLiked
+                    ? 'bg-gradient-to-br from-pink-500 to-red-500 scale-110'
+                    : 'bg-white/20 hover:bg-white/30 hover:scale-110'
+                    }`}>
                     <Heart
-                      className={`w-7 h-7 transition-all ${
-                        isLiked ? 'text-white' : 'text-white'
-                      }`}
+                      className={`w-7 h-7 transition-all ${isLiked ? 'text-white' : 'text-white'
+                        }`}
                       fill={isLiked ? 'white' : 'none'}
                     />
                   </div>
@@ -416,100 +416,102 @@ export default function Reels() {
       })}
 
       {/* Comments Modal */}
-      {showComments && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end md:items-center justify-center">
-          <div className="bg-white w-full md:w-[500px] md:rounded-2xl rounded-t-3xl shadow-2xl max-h-[85vh] md:max-h-[700px] flex flex-col animate-slide-up">
-            {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <h3 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Comments
-              </h3>
-              <button
-                onClick={closeComments}
-                className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
-              >
-                <X className="w-5 h-5 text-gray-600" />
-              </button>
-            </div>
-
-            {/* Comments List */}
-            <div className="flex-1 overflow-y-auto px-6 py-4">
-              {loadingComments ? (
-                <div className="flex justify-center py-12">
-                  <div className="relative">
-                    <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200"></div>
-                    <div className="animate-spin rounded-full h-12 w-12 border-4 border-transparent border-t-purple-600 absolute top-0 left-0"></div>
-                  </div>
-                </div>
-              ) : comments.length === 0 ? (
-                <div className="text-center py-16">
-                  <div className="text-6xl mb-4">💬</div>
-                  <p className="text-gray-500 text-lg font-medium">No comments yet</p>
-                  <p className="text-gray-400 text-sm mt-2">Be the first to comment!</p>
-                </div>
-              ) : (
-                comments.map((comment) => (
-                  <div key={comment._id} className="flex gap-3 mb-5 group">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-0.5 flex-shrink-0">
-                      <img
-                        src={comment.user.profilePicture}
-                        alt={comment.user.username}
-                        className="w-full h-full rounded-full object-cover"
-                      />
-                    </div>
-                    <div className="flex-1 bg-gray-50 rounded-2xl px-4 py-3 group-hover:bg-gray-100 transition-colors">
-                      <p className="font-semibold text-gray-900 text-sm mb-1">
-                        {comment.user.username}
-                      </p>
-                      <p className="text-gray-700 text-sm leading-relaxed">{comment.text}</p>
-                      <p className="text-gray-400 text-xs mt-2">
-                        {new Date(comment.createdAt).toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric'
-                        })}
-                      </p>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-
-            {/* Comment Input */}
-            <div className="p-4 border-t border-gray-200 bg-gray-50">
-              <div className="flex gap-3 items-center">
-                <input
-                  type="text"
-                  value={commentText}
-                  onChange={(e) => setCommentText(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      submitComment(reels[currentIndex]._id);
-                    }
-                  }}
-                  placeholder="Add a comment..."
-                  className="flex-1 border-2 border-gray-200 rounded-full px-5 py-3 text-sm focus:outline-none focus:border-purple-500 transition-colors bg-white"
-                />
+      {
+        showComments && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end md:items-center justify-center">
+            <div className="bg-white w-full md:w-[500px] md:rounded-2xl rounded-t-3xl shadow-2xl max-h-[85vh] md:max-h-[700px] flex flex-col animate-slide-up">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                <h3 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  Comments
+                </h3>
                 <button
-                  onClick={() => submitComment(reels[currentIndex]._id)}
-                  disabled={!commentText.trim() || submittingComment}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
+                  onClick={closeComments}
+                  className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
                 >
-                  {submittingComment ? (
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4" />
-                      Post
-                    </>
-                  )}
+                  <X className="w-5 h-5 text-gray-600" />
                 </button>
+              </div>
+
+              {/* Comments List */}
+              <div className="flex-1 overflow-y-auto px-6 py-4">
+                {loadingComments ? (
+                  <div className="flex justify-center py-12">
+                    <div className="relative">
+                      <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200"></div>
+                      <div className="animate-spin rounded-full h-12 w-12 border-4 border-transparent border-t-purple-600 absolute top-0 left-0"></div>
+                    </div>
+                  </div>
+                ) : comments.length === 0 ? (
+                  <div className="text-center py-16">
+                    <div className="text-6xl mb-4">💬</div>
+                    <p className="text-gray-500 text-lg font-medium">No comments yet</p>
+                    <p className="text-gray-400 text-sm mt-2">Be the first to comment!</p>
+                  </div>
+                ) : (
+                  comments.map((comment) => (
+                    <div key={comment._id} className="flex gap-3 mb-5 group">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-0.5 flex-shrink-0">
+                        <img
+                          src={comment.user.profilePicture}
+                          alt={comment.user.username}
+                          className="w-full h-full rounded-full object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 bg-gray-50 rounded-2xl px-4 py-3 group-hover:bg-gray-100 transition-colors">
+                        <p className="font-semibold text-gray-900 text-sm mb-1">
+                          {comment.user.username}
+                        </p>
+                        <p className="text-gray-700 text-sm leading-relaxed">{comment.text}</p>
+                        <p className="text-gray-400 text-xs mt-2">
+                          {new Date(comment.createdAt).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Comment Input */}
+              <div className="p-4 border-t border-gray-200 bg-gray-50">
+                <div className="flex gap-3 items-center">
+                  <input
+                    type="text"
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        submitComment(reels[currentIndex]._id);
+                      }
+                    }}
+                    placeholder="Add a comment..."
+                    className="flex-1 border-2 border-gray-200 rounded-full px-5 py-3 text-sm focus:outline-none focus:border-purple-500 transition-colors bg-white"
+                  />
+                  <button
+                    onClick={() => submitComment(reels[currentIndex]._id)}
+                    disabled={!commentText.trim() || submittingComment}
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
+                  >
+                    {submittingComment ? (
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        Post
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
       <style>{`
         @keyframes slide-up {
@@ -518,6 +520,6 @@ export default function Reels() {
         }
         .animate-slide-up { animation: slide-up 0.3s ease-out; }
       `}</style>
-    </div>
+    </div >
   );
 }
