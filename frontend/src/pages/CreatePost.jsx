@@ -42,13 +42,11 @@ export default function CreatePost() {
         mediaType = getMediaType(media);
         setUploadProgress("Creating post...");
       }
-
       await api.post("/post/create", {
         caption,
         mediaUrl,
         mediaType,
       });
-
       setCaption("");
       setMedia(null);
       setPreview("");
@@ -61,7 +59,6 @@ export default function CreatePost() {
       setSubmitting(false);
     }
   };
-
   return (
     <div className="min-h-screen pb-24 bg-gray-50">
       <div className="max-w-2xl mx-auto px-4 pt-6">

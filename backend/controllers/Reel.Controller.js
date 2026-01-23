@@ -1,5 +1,7 @@
 import CommentModel from "../models/CommentModel.js";
+import PostModel from "../models/PostModel.js";
 import ReelModel from "../models/ReelModel.js";
+import UserModel from "../models/UserModel.js";
 import { createNotification } from "./notification.controller.js";
 
 //  Create a new reel
@@ -17,6 +19,7 @@ export const createReel = async (req, res) => {
     // Generate thumbnail URL from video URL
     const thumbnailUrl = videoUrl.replace(/\.(mp4|mov|avi)$/i, ".jpg");
 
+    // Create the reel
     const reel = await ReelModel.create({
       userId,
       caption,
@@ -24,10 +27,31 @@ export const createReel = async (req, res) => {
       thumbnailUrl,
     });
 
+    // Also create a post for the reel (so it shows in profile)
+    const post = await PostModel.create({
+      userId,
+      caption,
+      video: videoUrl,
+      image: null,
+    });
+
+    // Notify followers about the new post
+    try {
+      const author = await UserModel.findById(userId).select("followers");
+      if (author?.followers?.length) {
+        await Promise.all(
+          author.followers.map(fid => createNotification("post", userId, fid, post._id))
+        );
+      }
+    } catch (e) {
+      console.error("createReel notification error:", e.message);
+    }
+
     res.status(201).json({
       success: true,
       message: "Reel uploaded successfully",
       reel,
+      post,
     });
   } catch (err) {
     console.error("Create reel error:", err);
@@ -96,7 +120,20 @@ export const deleteReel = async (req, res) => {
       return res.status(403).json({ success: false, message: "Not authorized" });
     }
 
+    // Delete the reel
     await reel.deleteOne();
+
+    // Also delete the associated post (find by video URL and userId)
+
+    try {
+      await PostModel.findOneAndDelete({
+        userId: userId,
+        video: reel.videoUrl
+      });
+    } catch (e) {
+      console.error("Failed to delete associated post:", e.message);
+    }
+
     res.json({ success: true, message: "Reel deleted successfully" });
   } catch (err) {
     console.error(err);

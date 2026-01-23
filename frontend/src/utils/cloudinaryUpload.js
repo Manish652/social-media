@@ -1,9 +1,4 @@
 import api from "../api/axios.js";
-
-/**
- * Upload file directly to Cloudinary from browser
- * Bypasses backend server network issues
- */
 export async function uploadToCloudinary(file, folder = "social_media_uploads") {
   try {
     console.log("[Client Upload] Starting direct upload to Cloudinary...");
@@ -14,7 +9,6 @@ export async function uploadToCloudinary(file, folder = "social_media_uploads") 
     if (!config.success) {
       throw new Error("Failed to get upload config");
     }
-
     const { cloudName, uploadPreset } = config;
 
     if (!uploadPreset) {
@@ -65,9 +59,8 @@ export async function uploadToCloudinary(file, folder = "social_media_uploads") 
   }
 }
 
-/**
- * Determine if file is image or video
- */
+
+
 export function getMediaType(file) {
   if (file.type.startsWith("image/")) return "image";
   if (file.type.startsWith("video/")) return "video";

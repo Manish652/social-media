@@ -1,4 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import { Bookmark, Film, Grid, Menu, Pencil, PlusCircle, Settings, Trash2 } from "lucide-react";
+import ReelCard from "../components/reel/ReelCard.jsx";
+
 import { useParams } from "react-router-dom";
 import api from "../api/axios.js";
 import FollowListModal from "../components/common/FollowListModal.jsx";
@@ -10,6 +13,8 @@ export default function ProfilePublicView() {
   const { user, updateFollowing } = userAuth();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [reels, setReels] = useState([]);
+  const [activeTab, setActiveTab] = useState("posts");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showFollowModal, setShowFollowModal] = useState(false);
@@ -47,9 +52,29 @@ export default function ProfilePublicView() {
           return uid && String(uid) === String(id);
         });
         setPosts(userPosts);
-      } catch { }
+      } catch (error) {
+        console.log(error);
+      }
     };
-    if (id) loadPosts();
+
+    const loadReels = async () => {
+      try {
+        const { data } = await api.get("/reel/all");
+        const all = Array.isArray(data?.reels) ? data.reels : [];
+        const userReels = all.filter((r) => {
+          const uid = r?.userId?._id || r?.userId;
+          return uid && String(uid) === String(id);
+        });
+        setReels(userReels);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (id) {
+      loadPosts();
+      loadReels();
+    }
   }, [id]);
 
   const handleFollow = async () => {
@@ -65,6 +90,8 @@ export default function ProfilePublicView() {
       const { data } = await api.get(`/user/profile/${id}`);
       setProfile(data);
     } catch (e) {
+      console.log(e);
+
       updateFollowing(id, "unfollow");
       // Revert on error
       const { data } = await api.get(`/user/profile/${id}`);
@@ -85,6 +112,7 @@ export default function ProfilePublicView() {
       const { data } = await api.get(`/user/profile/${id}`);
       setProfile(data);
     } catch (e) {
+      console.error(e);
       updateFollowing(id, "follow");
       // Revert on error
       const { data } = await api.get(`/user/profile/${id}`);
@@ -282,43 +310,117 @@ export default function ProfilePublicView() {
           </div>
         </div>
 
-        {/* Posts Section */}
+        {/* Tabs and Content Section */}
         <div className="mt-8">
-          <div className="mb-4 flex items-center gap-2">
-            <div className="w-1 h-6 bg-gradient-to-b from-purple-600 to-pink-600 rounded-full"></div>
-            <h2 className="text-xl font-bold text-gray-800">Posts</h2>
+          {/* Tabs */}
+          <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 overflow-hidden mb-4">
+            <div className="flex">
+              <button
+                onClick={() => setActiveTab("posts")}
+                className={`flex-1 py-4 flex items-center justify-center gap-2 border-b-4 transition-all ${activeTab === "posts"
+                    ? "border-purple-500 text-purple-600 font-semibold bg-purple-50/50"
+                    : "border-transparent text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                  }`}
+              >
+                <Grid size={22} />
+                <span className="hidden sm:inline">Posts</span>
+              </button>
+              <button
+                onClick={() => setActiveTab("reels")}
+                className={`flex-1 py-4 flex items-center justify-center gap-2 border-b-4 transition-all ${activeTab === "reels"
+                    ? "border-purple-500 text-purple-600 font-semibold bg-purple-50/50"
+                    : "border-transparent text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                  }`}
+              >
+                <Film size={22} />
+                <span className="hidden sm:inline">Reels</span>
+              </button>
+              <button
+                onClick={() => setActiveTab("saved")}
+                className={`flex-1 py-4 flex items-center justify-center gap-2 border-b-4 transition-all ${activeTab === "saved"
+                    ? "border-purple-500 text-purple-600 font-semibold bg-purple-50/50"
+                    : "border-transparent text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                  }`}
+              >
+                <Bookmark size={22} />
+                <span className="hidden sm:inline">Saved</span>
+              </button>
+            </div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-lg border border-white/20 overflow-hidden">
-            {posts.length === 0 ? (
-              <div className="p-16 text-center">
-                <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-4xl">📝</span>
-                </div>
-                <p className="text-gray-500 font-medium">No posts yet</p>
-                <p className="text-gray-400 text-sm mt-1">
-                  {isMe ? "Share your first post!" : "Check back later for updates"}
-                </p>
-              </div>
-            ) : (
-              <div className="divide-y divide-gray-100">
-                {posts.map((post) => (
-                  <div
-                    key={post._id}
-                    className="p-6 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 transition-all duration-200"
-                  >
-                    <PostCard
-                      post={post}
-                      isLiked={false}
-                      isSaved={false}
-                      onLike={() => { }}
-                      onSave={() => { }}
-                    />
+          {/* Posts Tab */}
+          {activeTab === "posts" && (
+            <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-lg border border-white/20 overflow-hidden">
+              {posts.length === 0 ? (
+                <div className="p-16 text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Grid size={32} className="text-purple-600" />
                   </div>
-                ))}
+                  <p className="text-gray-500 font-medium">No posts yet</p>
+                  <p className="text-gray-400 text-sm mt-1">
+                    {isMe ? "Share your first post!" : "Check back later for updates"}
+                  </p>
+                </div>
+              ) : (
+                <div className="divide-y divide-gray-100">
+                  {posts.map((post) => (
+                    <div
+                      key={post._id}
+                      className="p-6 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 transition-all duration-200"
+                    >
+                      <PostCard
+                        post={post}
+                        isLiked={false}
+                        isSaved={false}
+                        onLike={() => { }}
+                        onSave={() => { }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Reels Tab */}
+          {activeTab === "reels" && (
+            <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-lg border border-white/20 overflow-hidden p-6">
+              {reels.length === 0 ? (
+                <div className="p-16 text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Film size={32} className="text-purple-600" />
+                  </div>
+                  <p className="text-gray-500 font-medium">No reels yet</p>
+                  <p className="text-gray-400 text-sm mt-1">
+                    {isMe ? "Create your first reel!" : "Check back later for reels"}
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-3 gap-2">
+                  {reels.map((reel) => (
+                    <ReelCard
+                      key={reel._id}
+                      reel={reel}
+                      onClick={() => {
+                        window.location.href = `/reels`;
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Saved Tab */}
+          {activeTab === "saved" && (
+            <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-lg border border-white/20 overflow-hidden p-16 text-center">
+              <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Bookmark size={32} className="text-purple-600" />
               </div>
-            )}
-          </div>
+              <p className="text-gray-500 font-medium">Saved posts are private</p>
+              <p className="text-gray-400 text-sm mt-1">Only you can see your saved posts</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

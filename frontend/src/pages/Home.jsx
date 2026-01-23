@@ -5,6 +5,7 @@ import PostCard from "../components/post/PostCard.jsx";
 import StoriesSection from "../components/story/StoriesSection.jsx";
 import { userAuth } from "../context/AuthContext.jsx";
 
+
 export default function Home() {
   const [likedPosts, setLikedPosts] = useState(new Set());
   const [savedPosts, setSavedPosts] = useState(new Set());
@@ -62,7 +63,9 @@ export default function Home() {
       try {
         const { data } = await api.get("/post");
         setPosts(data?.posts || []);
-      } catch { }
+      } catch(err) {
+        console.error("Failed to load posts", err);
+       }
       console.error("toggle like failed", err);
     }
   };

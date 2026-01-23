@@ -319,7 +319,8 @@ export default function Reels() {
               <div className="absolute bottom-24 left-4 right-20 pointer-events-none z-10">
                 {reel.userId && (
                   <Link
-                    to={`/profile/${reel.userId.username}`}
+                   to={`/u/${reel.userId._id}`}
+
                     className="inline-flex items-center gap-3 mb-3 pointer-events-auto group"
                   >
                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-0.5 ring-2 ring-white/50 group-hover:ring-white/80 transition-all">

@@ -5,7 +5,6 @@ import Navbar from './components/common/Navbar.jsx';
 import ProtectedRoute from "./components/common/ProtectedRoute.jsx";
 import PublicRoute from "./components/common/PublicRoute.jsx";
 import { userAuth } from "./context/AuthContext.jsx";
-import Chat from "./pages/Chat.jsx";
 import CreatePost from "./pages/CreatePost.jsx";
 import CreateReel from "./pages/CreateReel.jsx";
 import CreateStory from "./pages/CreateStory.jsx";
@@ -55,14 +54,6 @@ function App() {
           element={
             <ProtectedRoute>
               <ProfilePublicView />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path='/chat'
-          element={
-            <ProtectedRoute>
-              <Chat />
             </ProtectedRoute>
           }
         />

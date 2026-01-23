@@ -1,12 +1,12 @@
-import { Bookmark, Grid, Menu, Pencil, PlusCircle, Settings, Trash2 } from "lucide-react";
+import { Bookmark, Film, Grid, Menu, Pencil, PlusCircle, Settings, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axios";
 import FollowListModal from "../components/common/FollowListModal.jsx";
 import Layout from "../components/layout/Layout.jsx";
 import PostCard from "../components/post/PostCard.jsx";
+import ReelCard from "../components/reel/ReelCard.jsx";
 import { userAuth } from "../context/AuthContext";
-
 
 export default function Profile() {
   const { user, login, logout } = userAuth();
@@ -19,6 +19,8 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [reels, setReels] = useState([]);
+  const [activeTab, setActiveTab] = useState("posts"); // "posts" or "reels"
   const [updating, setUpdating] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [profileImageFile, setProfileImageFile] = useState(null);
@@ -47,14 +49,25 @@ export default function Profile() {
     const fetchPosts = async () => {
       try {
         const { data } = await api.get("/post");
+        // Show all posts (including old video posts)
         setPosts(data?.posts || []);
       } catch (err) {
         console.log("Posts fetch failed:", err.message);
       }
     };
 
+    const fetchReels = async () => {
+      try {
+        const { data } = await api.get("/reel/all");
+        setReels(data?.reels || []);
+      } catch (err) {
+        console.log("Reels fetch failed:", err.message);
+      }
+    };
+
     fetchProfile();
     fetchPosts();
+    fetchReels();
   }, []);
 
   // Keep profile followers/following in sync with context when viewing own profile
@@ -80,7 +93,9 @@ export default function Profile() {
         const { data } = await api.get("/user/profile");
         setProfile(data);
         login(data, localStorage.getItem("token"));
-      } catch { }
+      } catch {
+        // Ignore errors
+      }
     };
     fetchFresh();
   }, [Array.isArray(user?.following) ? user.following.length : 0]);
@@ -100,6 +115,22 @@ export default function Profile() {
       await refreshPosts();
     } catch (err) {
       alert(err?.response?.data?.message || "Failed to delete post");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const handleDeleteReel = async (reelId) => {
+    try {
+      setDeleting(true);
+      await api.delete(`/reel/delete/${reelId}`);
+      // Refresh both reels and posts
+      const { data: reelsData } = await api.get("/reel/all");
+      setReels(reelsData?.reels || []);
+      await refreshPosts();
+      alert("Reel deleted successfully!");
+    } catch (err) {
+      alert(err?.response?.data?.message || "Failed to delete reel");
     } finally {
       setDeleting(false);
     }
@@ -257,9 +288,6 @@ export default function Profile() {
             </div>
           </div>
         </div>
-
-    
-
         <form onSubmit={handleSave} className="mt-4 space-y-4 bg-white shadow-lg rounded-2xl border border-gray-100 p-6 hover:shadow-xl transition-shadow">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Edit Profile</h3>
           <div>
@@ -328,11 +356,33 @@ export default function Profile() {
         {/* Tabs */}
         <div className="mt-4 bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
           <div className="flex">
-            <button className="flex-1 py-4 flex items-center justify-center gap-2 border-b-4 border-purple-500 text-purple-600 font-semibold transition-all">
+            <button
+              onClick={() => setActiveTab("posts")}
+              className={`flex-1 py-4 flex items-center justify-center gap-2 border-b-4 transition-all ${activeTab === "posts"
+                ? "border-purple-500 text-purple-600 font-semibold"
+                : "border-transparent text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                }`}
+            >
               <Grid size={22} />
               <span className="hidden sm:inline">Posts</span>
             </button>
-            <button className="flex-1 py-4 flex items-center justify-center gap-2 border-b-4 border-transparent text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-all">
+            <button
+              onClick={() => setActiveTab("reels")}
+              className={`flex-1 py-4 flex items-center justify-center gap-2 border-b-4 transition-all ${activeTab === "reels"
+                ? "border-purple-500 text-purple-600 font-semibold"
+                : "border-transparent text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                }`}
+            >
+              <Film size={22} />
+              <span className="hidden sm:inline">Reels</span>
+            </button>
+            <button
+              onClick={() => setActiveTab("saved")}
+              className={`flex-1 py-4 flex items-center justify-center gap-2 border-b-4 transition-all ${activeTab === "saved"
+                ? "border-purple-500 text-purple-600 font-semibold"
+                : "border-transparent text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                }`}
+            >
               <Bookmark size={22} />
               <span className="hidden sm:inline">Saved</span>
             </button>
@@ -340,53 +390,114 @@ export default function Profile() {
         </div>
 
         {/* User posts */}
-        <div className="mt-6 space-y-4">
-          {posts
-            .filter((p) => {
+        {activeTab === "posts" && (
+          <div className="mt-6 space-y-4">
+            {posts
+              .filter((p) => {
+                const uid = p?.userId?._id || p?.userId || p?.userID?._id || p?.userID;
+                const me = profile?._id || user?._id;
+                return uid && me && String(uid) === String(me);
+              })
+              .map((post) => {
+                const isOwner = String((post?.userId?._id || post?.userId || post?.userID?._id || post?.userID)) === String(profile?._id || user?._id);
+                return (
+                  <div key={post._id} className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow">
+                    <PostCard post={post} isLiked={false} isSaved={false} onLike={() => { }} onSave={() => { }} />
+                    {isOwner && (
+                      <div className="flex gap-3 px-5 py-3 bg-gradient-to-r from-gray-50 to-purple-50/30 border-t border-gray-100">
+                        <button
+                          onClick={() => handleUpdatePost(post)}
+                          disabled={updating}
+                          className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-semibold hover:underline transition-colors"
+                        >
+                          <Pencil size={16} /> Edit Post
+                        </button>
+                        <button
+                          onClick={() => handleDeletePost(post._id)}
+                          disabled={deleting}
+                          className="flex items-center gap-2 text-sm text-red-600 hover:text-red-700 font-semibold hover:underline transition-colors"
+                        >
+                          <Trash2 size={16} /> Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            {posts.filter((p) => {
               const uid = p?.userId?._id || p?.userId || p?.userID?._id || p?.userID;
               const me = profile?._id || user?._id;
               return uid && me && String(uid) === String(me);
-            })
-            .map((post) => {
-              const isOwner = String((post?.userId?._id || post?.userId || post?.userID?._id || post?.userID)) === String(profile?._id || user?._id);
-              return (
-                <div key={post._id} className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow">
-                  <PostCard post={post} isLiked={false} isSaved={false} onLike={() => { }} onSave={() => { }} />
-                  {isOwner && (
-                    <div className="flex gap-3 px-5 py-3 bg-gradient-to-r from-gray-50 to-purple-50/30 border-t border-gray-100">
-                      <button
-                        onClick={() => handleUpdatePost(post)}
-                        disabled={updating}
-                        className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-semibold hover:underline transition-colors"
-                      >
-                        <Pencil size={16} /> Edit Post
-                      </button>
-                      <button
-                        onClick={() => handleDeletePost(post._id)}
-                        disabled={deleting}
-                        className="flex items-center gap-2 text-sm text-red-600 hover:text-red-700 font-semibold hover:underline transition-colors"
-                      >
-                        <Trash2 size={16} /> Delete
-                      </button>
-                    </div>
-                  )}
+            }).length === 0 && (
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Grid size={32} className="text-purple-600" />
+                  </div>
+                  <p className="text-gray-500 font-medium">No posts yet</p>
+                  <p className="text-gray-400 text-sm mt-1">Start sharing your moments!</p>
                 </div>
-              );
-            })}
-          {posts.filter((p) => {
-            const uid = p?.userId?._id || p?.userId || p?.userID?._id || p?.userID;
-            const me = profile?._id || user?._id;
-            return uid && me && String(uid) === String(me);
-          }).length === 0 && (
+              )}
+          </div>
+        )}
+
+        {/* User reels */}
+        {activeTab === "reels" && (
+          <div className="mt-6">
+            {reels.filter((r) => {
+              const uid = r?.userId?._id || r?.userId;
+              const me = profile?._id || user?._id;
+              return uid && me && String(uid) === String(me);
+            }).length > 0 ? (
+              <div className="grid grid-cols-3 gap-2">
+                {reels
+                  .filter((r) => {
+                    const uid = r?.userId?._id || r?.userId;
+                    const me = profile?._id || user?._id;
+                    return uid && me && String(uid) === String(me);
+                  })
+                  .map((reel) => (
+                    <ReelCard
+                      key={reel._id}
+                      reel={reel}
+                      showDelete={true}
+                      onDelete={handleDeleteReel}
+                      onClick={() => {
+                        // Navigate to reels page with this reel
+                        window.location.href = `/reels`;
+                      }}
+                    />
+                  ))}
+              </div>
+            ) : (
               <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 text-center">
                 <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Grid size={32} className="text-purple-600" />
+                  <Film size={32} className="text-purple-600" />
                 </div>
-                <p className="text-gray-500 font-medium">No posts yet</p>
-                <p className="text-gray-400 text-sm mt-1">Start sharing your moments!</p>
+                <p className="text-gray-500 font-medium">No reels yet</p>
+                <p className="text-gray-400 text-sm mt-1">Create your first reel!</p>
+                <Link
+                  to="/create-reel"
+                  className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold hover:shadow-lg transition-all"
+                >
+                  Create Reel
+                </Link>
               </div>
             )}
-        </div>
+          </div>
+        )}
+
+        {/* Saved posts */}
+        {activeTab === "saved" && (
+          <div className="mt-6">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 text-center">
+              <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Bookmark size={32} className="text-purple-600" />
+              </div>
+              <p className="text-gray-500 font-medium">No saved posts yet</p>
+              <p className="text-gray-400 text-sm mt-1">Save posts to see them here!</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
