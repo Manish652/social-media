@@ -104,7 +104,9 @@ export default function Profile() {
     try {
       const { data } = await api.get("/post");
       setPosts(data?.posts || []);
-    } catch { }
+    } catch { 
+      // Ignore errors
+    }
   };
 
   const handleDeletePost = async (postId) => {
