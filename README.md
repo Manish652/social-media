@@ -1,5 +1,6 @@
-# vibe media Full Stack social media 
-# ⚠️ This repository has been split into two separate repositories: Frontend and Backend. Please visit the links below.
+# vibe Social Media 
+
+# This repository has been split into two separate repositories: Frontend and Backend. Please visit the links below.
 
 
 Originally the project was developed in a single repository, but for better structure, scalability, and easier maintenance, the codebase has now been separated into **Frontend** and **Backend** repositories.
